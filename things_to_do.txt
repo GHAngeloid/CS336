@@ -1,0 +1,4 @@
+make database tables
+customer registration, management
+online reservation
+statistics

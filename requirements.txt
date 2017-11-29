@@ -1,1 +1,14 @@
+requests
 flask
+peewee
+flask-login
+werkzeug
+wtforms
+Flask-WTF
+WTForms-Alchemy
+Flask-Table
+python-dateutil
+phonenumbers
+hashids
+flask-ask
+sphinx
