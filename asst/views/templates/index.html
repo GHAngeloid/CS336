@@ -34,12 +34,8 @@
                     <h3>{{ message }}</h3>
             {% endif %}
             <section id="main">    
-            	Welcome to Hulton Hotel's main website
             {% block body %}
             {% endblock %}
-            {%  if (role != 'admin' and role != 'customer') and not login %}
-            {% include "register.html" %}
-            {% endif %}
             </section>
     </div>
     </div>

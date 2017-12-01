@@ -1,9 +1,4 @@
 '''The basic user model (For logins)
-
-written by: Zachary Blanco
-tested by: Zachary Blanco
-debugged by: Zachary Blanco
-
 The users will have roles i.e. chef, manager, host, waitress, etc..
 '''
 from peewee import CharField, IntegrityError, IntegerField
@@ -22,7 +17,7 @@ class User(UserMixin, BaseModel):
         - manager
     '''
     CID = IntegerField(primary_key=True)
-    Email = CharField()
+    Email = CharField(unique = True)
     password = CharField()
     Name = CharField()
     Address = CharField()

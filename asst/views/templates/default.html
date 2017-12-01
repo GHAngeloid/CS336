@@ -1,0 +1,8 @@
+{% extends "index.html" %}
+{% block body %}
+	{%  if (role != 'admin' and role != 'customer') and not logged_in %}
+	{% include "register.html" %}
+	{% else %}
+	You are logged in as {{current_user.Name}} under the email {{current_user.Email}}. Please use the left side to navigate the website.
+	{% endif %}
+{% endblock %}

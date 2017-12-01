@@ -18,26 +18,52 @@ LM.init_app(APP)
 init_db()
 
 import asst.auth
+import asst.utils
 
 # Register all views after here
 # =======================
 from asst.auth import auth_pages
-from asst.views import register
+from asst.views import register, feedback, management, reservation, stats
+from asst.models import user
 
 
 APP.register_blueprint(register.page, url_prefix='/register')
 APP.register_blueprint(auth_pages, url_prefix='/auth')
+APP.register_blueprint(feedback.page, url_prefix='/feedback')
+APP.register_blueprint(management.page, url_prefix='/management')
+APP.register_blueprint(reservation.page, url_prefix='/reservation')
+APP.register_blueprint(stats.page, url_prefix='/stats')
+
 
 # ==================================== Universal Routes ======================================== #
-@APP.route('/')
+@APP.route('/',methods=['GET', 'POST'])
 def index():
     ''''Renders the default template'''
     if flask_login.current_user.is_authenticated:
-        return render_template('index.html',
+        return render_template('default.html',
                                message='Hello {}'.format(flask_login.current_user.Name),
+                               current_user = flask_login.current_user,
                                logged_in=True,
                                role=flask_login.current_user.role)
     else:
-        return render_template('index.html',logged_in=False)
+        form = register.RegistrationForm()
+        if form.validate_on_submit():
+          try:
+            utils.connect_to_db()
+            cust = user.User.create_user(
+            name=form.name.data,
+            password=form.password.data,
+            email=form.email.data,
+            phone_no = form.phone.data,
+            address = form.address.data,
+            role = form.role.data
+            )
+            DB.close()
+            flash("Successfully Registered!", 'success')
+          except Exception as e:
+            DB.close()
+            traceback.print_exc(file=sys.stdout)
+            flash('Registration failed: ' + str(e), 'danger')
+        return render_template('default.html',logged_in=False, form=form)
 
 # =============================================================================================== #

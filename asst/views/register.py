@@ -3,13 +3,16 @@ from flask import request
 from itertools import *
 from asst import DB as db
 from asst.models import user
+from flask_wtf import FlaskForm, CsrfProtect
+from wtforms import BooleanField, StringField, PasswordField, validators, IntegerField, SelectField
+from wtforms_alchemy import PhoneNumberField
 import sys, traceback
 import math
 import random
 import json
 import time
 
-page = Blueprint('main', __name__, template_folder='templates')
+page = Blueprint('register', __name__, template_folder='templates')
 
 
 def connect_to_db():
@@ -22,27 +25,13 @@ def connect_to_db():
         flash('Cannot connect to database', 'danger')
         pass
 
-@page.route("",methods=['POST'])
-def register():
-    connect_to_db()
-    try:
-        print(request.form['phone'])
-        cust = user.User.create_user(
-                name=request.form['name'],
-                password=request.form['password'],
-                email=request.form['email'],
-                phone_no = request.form['phone'],
-                address = request.form['address'],
-                role = request.form['role']
-            )
-        db.close()
-    except:
-        traceback.print_exc(file=sys.stdout)
-        flash('Form failed', 'danger')
-    # user = User.create(
-    #         username=request.form['username'],
-    #         password=md5(request.form['password']).hexdigest(),
-    #         email=request.form['email'],
-    #         join_date=datetime.datetime.now()
-    #     )
-    return render_template('/index.html')
+class RegistrationForm(FlaskForm):
+    '''
+    This is the form that displays fields to make a reservation
+    '''
+    email = StringField('Email', [validators.DataRequired(), validators.Email()])
+    name = StringField('Name', [validators.DataRequired()])
+    phone = PhoneNumberField('Phone Number',[validators.DataRequired()])
+    address = StringField('Address', [validators.Length(min=2, max=250),validators.DataRequired()])
+    password = PasswordField('Password', [validators.DataRequired()])
+    role = SelectField('Role',  [validators.DataRequired()], choices=[('customer', 'Customer'), ('manager', 'Manager'), ('admin', 'Administrator')])

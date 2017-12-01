@@ -1,4 +1,6 @@
-make database tables
-customer registration, management
+make database tables - done
+customer registration - done
+customer management
 online reservation
 statistics
+customer feedback

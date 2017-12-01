@@ -1,9 +1,5 @@
 '''Base model that all new models should inherit from
 
-written by: Zachary Blanco
-tested by: Zachary Blanco
-debugged by: Zachary Blanco
-
 This alows us to create new models which inherit the DB value and also the __str__
 method for printing data for debugging purposes
 

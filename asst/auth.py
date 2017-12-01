@@ -1,15 +1,11 @@
 '''Module for authentication and authorization
 
-- written by: Zachary Blanco
-- tested by: Zachary Blanco
-- debugged by: Zachary Blanco
-
 Uses the flask-login plugin as well as some custom wrapper functions to ensure
 that logged in users are only able to access authorized resources.
 '''
 from functools import wraps
 import flask
-from flask import Blueprint, render_template, url_for, redirect
+from flask import Blueprint, render_template, url_for, redirect, flash
 import flask_login
 from asst import LM as login_manager
 from asst.models import User
@@ -101,13 +97,14 @@ def login():
         return redirect(url_for('index'))
 
     if flask.request.method == 'GET':
-        return render_template('login.html', login = True)
+        return render_template('login.html', logged_in = False)
 
     email = flask.request.form['email']
     users = User.select().where(User.Email == email)
 
     if len(users) <= 0:
-        return render_template('login.html', error='Unable to login user {}'.format(email))
+        flash('Unable to login user {}'.format(email), 'danger')
+        return render_template('login.html', logged_in = False)
     else:
         user = users[0]
 
@@ -117,10 +114,12 @@ def login():
         return flask.redirect(flask.url_for('index'))
 
     # Last resort - just return an error about logging in
-    return render_template('login.html', error='Unable to login user {}'.format(email)), 401
+    flash('Unable to login user {}'.format(email), 'danger')
+    return render_template('login.html' , logged_in = False), 401
 
 @auth_pages.route('/logout')
 def logout():
     ''''Logs a user out and renders the login template with a message'''
     flask_login.logout_user()
-    return render_template('login.html', error="Successfully logged out")
+    flash("Successfully logged out", 'success')
+    return render_template('login.html' , logged_in = False)
