@@ -33,5 +33,5 @@ class RegistrationForm(FlaskForm):
     name = StringField('Name', [validators.DataRequired()])
     phone = PhoneNumberField('Phone Number',[validators.DataRequired()])
     address = StringField('Address', [validators.Length(min=2, max=250),validators.DataRequired()])
-    password = PasswordField('Password', [validators.DataRequired()])
+    password = PasswordField('Password', [validators.DataRequired(), validators.Length(min=4, max=50)])
     role = SelectField('Role',  [validators.DataRequired()], choices=[('customer', 'Customer'), ('manager', 'Manager'), ('admin', 'Administrator')])
