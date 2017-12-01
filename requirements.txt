@@ -12,3 +12,4 @@ phonenumbers
 hashids
 flask-ask
 sphinx
+PyMySQL

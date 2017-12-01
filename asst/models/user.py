@@ -6,12 +6,14 @@ debugged by: Zachary Blanco
 
 The users will have roles i.e. chef, manager, host, waitress, etc..
 '''
-from peewee import CharField, IntegrityError
+from peewee import CharField, IntegrityError, IntegerField
 from asst.models import BaseModel
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash
 
 class User(UserMixin, BaseModel):
+    class Meta:
+        db_table = 'Customer'
     '''A User model for who will be using the software. Users have different levels of access with different roles
 
     Current active roles:
@@ -19,15 +21,16 @@ class User(UserMixin, BaseModel):
         - customer
         - manager
     '''
-    email = CharField()
+    CID = IntegerField(primary_key=True)
+    Email = CharField()
     password = CharField()
-    name = CharField()
-    address = CharField()
-    phone_no = CharField()
+    Name = CharField()
+    Address = CharField()
+    Phone_no = CharField()
     role = CharField() #assumption that user will enter valid role
 
     @classmethod
-    def create_user(cls, email, password, name, role):
+    def create_user(cls, email, password, name, phone_no, role, address):
         '''Creates a new user
 
         Args:
@@ -47,11 +50,11 @@ class User(UserMixin, BaseModel):
 
         try:
             cls.create(
-                email=email,
+                Email=email,
                 password=generate_password_hash(password),
-                name=name,
-                phone_no = phone_no,
-                address = address,
+                Name=name,
+                Phone_no = phone_no,
+                Address = address,
                 role=role)
         except IntegrityError:
             raise ValueError("User already exists")

@@ -27,7 +27,7 @@ def user_loader(email):
     Returns:
         User: The user object corresponding to the email passed, or None if it doesn't exist
     '''
-    users = User.select().where(User.email == email)
+    users = User.select().where(User.Email == email)
     if len(users) > 0:
         return users[0]
     else:
@@ -101,10 +101,10 @@ def login():
         return redirect(url_for('index'))
 
     if flask.request.method == 'GET':
-        return render_template('login.html')
+        return render_template('login.html', login = True)
 
     email = flask.request.form['email']
-    users = User.select().where(User.email == email)
+    users = User.select().where(User.Email == email)
 
     if len(users) <= 0:
         return render_template('login.html', error='Unable to login user {}'.format(email))
@@ -112,7 +112,7 @@ def login():
         user = users[0]
 
     if check_password_hash(user.password, flask.request.form['pw']):
-        user.id = user.email
+        user.id = user.Email
         flask_login.login_user(user)
         return flask.redirect(flask.url_for('index'))
 

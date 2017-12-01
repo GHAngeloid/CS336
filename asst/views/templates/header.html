@@ -10,7 +10,7 @@ debugged by: Zachary, Seo Bo Shim
             {%  if role == 'admin' or role == 'customer'%}
             <li role="presentation" class="nav-element"><a href="/reservation">Online Reservation</a></li>
             {% endif %}
-            {% if role == 'manager'%}
+            {% if role == 'manager' or role == 'admin' %}
             <li role="presentation" class="nav-element"><a href="/management">Customer Registration and Management</a></li>
             <li role="presentation" class="nav-element"><a href="/stats">Statistics</a></li>
             {% endif %}
