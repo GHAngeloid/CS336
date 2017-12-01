@@ -7,6 +7,7 @@ from functools import wraps
 import flask
 from flask import Blueprint, render_template, url_for, redirect, flash
 import flask_login
+import sys, traceback
 from asst import LM as login_manager
 from asst.models import User
 from werkzeug.security import check_password_hash
@@ -23,11 +24,14 @@ def user_loader(email):
     Returns:
         User: The user object corresponding to the email passed, or None if it doesn't exist
     '''
-    users = User.select().where(User.Email == email)
-    if len(users) > 0:
-        return users[0]
-    else:
-        return
+    try:
+        users = User.select().where(User.Email == email)
+        if len(users) > 0:
+            return users[0]
+        else:
+            return
+    except Exception as e:
+        traceback.print_exc(file=sys.stdout)
 
 @login_manager.unauthorized_handler
 def unauth():
@@ -92,29 +96,32 @@ def require_role(role,**kwargss):
 @auth_pages.route('/login', methods=['GET', 'POST'])
 def login():
     '''Logs a user into the application'''
+    try:
+        if flask_login.current_user.is_authenticated:
+            return redirect(url_for('index'))
 
-    if flask_login.current_user.is_authenticated:
-        return redirect(url_for('index'))
+        if flask.request.method == 'GET':
+            return render_template('login.html', logged_in = False)
 
-    if flask.request.method == 'GET':
-        return render_template('login.html', logged_in = False)
+        email = flask.request.form['email']
+        users = User.select().where(User.Email == email)
 
-    email = flask.request.form['email']
-    users = User.select().where(User.Email == email)
+        if len(users) <= 0:
+            flash('Unable to login user {}'.format(email), 'danger')
+            return render_template('login.html', logged_in = False)
+        else:
+            user = users[0]
 
-    if len(users) <= 0:
+        if check_password_hash(user.password, flask.request.form['pw']):
+            user.id = user.Email
+            flask_login.login_user(user)
+            return flask.redirect(flask.url_for('index'))
+
+        # Last resort - just return an error about logging in
         flash('Unable to login user {}'.format(email), 'danger')
-        return render_template('login.html', logged_in = False)
-    else:
-        user = users[0]
-
-    if check_password_hash(user.password, flask.request.form['pw']):
-        user.id = user.Email
-        flask_login.login_user(user)
-        return flask.redirect(flask.url_for('index'))
-
-    # Last resort - just return an error about logging in
-    flash('Unable to login user {}'.format(email), 'danger')
+    except Exception as e: 
+        traceback.print_exc(file=sys.stdout)
+        flash('Registration failed: ' + str(e), 'danger')
     return render_template('login.html' , logged_in = False), 401
 
 @auth_pages.route('/logout')

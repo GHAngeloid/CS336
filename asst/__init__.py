@@ -18,7 +18,6 @@ LM.init_app(APP)
 init_db()
 
 import asst.auth
-import asst.utils
 
 # Register all views after here
 # =======================
@@ -49,7 +48,7 @@ def index():
         form = register.RegistrationForm()
         if form.validate_on_submit():
           try:
-            utils.connect_to_db()
+            # utils.connect_to_db()
             cust = user.User.create_user(
             name=form.name.data,
             password=form.password.data,
@@ -58,10 +57,8 @@ def index():
             address = form.address.data,
             role = form.role.data
             )
-            DB.close()
             flash("Successfully Registered!", 'success')
           except Exception as e:
-            DB.close()
             traceback.print_exc(file=sys.stdout)
             flash('Registration failed: ' + str(e), 'danger')
         return render_template('default.html',logged_in=False, form=form)
