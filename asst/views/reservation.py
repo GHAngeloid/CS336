@@ -59,11 +59,17 @@ H1R2.Country='NY'
 H3R1 = Room()
 H3R2 = Room()
 H3R3 = Room()
-'''
+
+
+
 @page.route('/search_reg',methods=['GET','POST'])
- def search_reg():
+@require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
+def search_reg(role):
     if request.method == 'POST':
-#        searchC = flask.request.form['searchC']
-'''
+       searchC = request.form['searchC']
+       print(searchC)
+       flash("Got country: " + searchC, 'success')
+    return render_template('reservation/index.html', logged_in=True,role=role)
+
 
 
