@@ -34,9 +34,6 @@ class Room(Hotel):
 x=tst1.date2-tst1.date1
 y=x.days*2
 '''
-'''
-5 hotels 3 in america-NJ,NY,FL-  2 in canada -ON,QC-
-'''
 
 H1R1 = Room()
 
@@ -47,14 +44,26 @@ H1R3 = Room()
 H1R3.state='FL'
 
 H2R1 = Room()
-H1R2.state='ON'
 H2R1.Country='Canada'
 
 H2R2 = Room()
-H2R2.state='QC'
+H1R2.state='NY'
 H2R2.Country='Canada'
 
+H2R3 = Room()
+H1R2.state='NY'
+H1R2.Country='NY'
 
 
+
+H3R1 = Room()
+H3R2 = Room()
+H3R3 = Room()
+'''
+@page.route('/search_reg',methods=['GET','POST'])
+ def search_reg():
+    if request.method == 'POST':
+#        searchC = flask.request.form['searchC']
+'''
 
 
