@@ -12,6 +12,41 @@
             <input type="submit" id = 'searchHotel' class = "btn btn-primary" value="Search"/>
         </div>
 
+   <div class="form-group">
+    <label >Check in Date</label>
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text'  required name="checkin" id="checkin" class="form-control"  placeholder="12/04/2017"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    <small id="GHelp" class="form-text text-muted">Enter your check in date</small>
+  </div>
+</div>
+
+
+   <div class="form-group">
+    <label >Check out date</label>
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker2'>
+                    <input type='text'  required name="checkout" id="checkout" class="form-control"  placeholder="12/04/2017"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    <small id="GHelp" class="form-text text-muted">Enter your check out date</small>
+  </div>
+</div>
+
     <div id="hotelList" style="display: none;">
   <table class="table table-striped" id = 'table'>
     <thead>
@@ -57,6 +92,23 @@
 
    }
 
+   function findRooms(id){
+    checkin = $('#checkin').val()
+    checkout = $('#checkout').val()
+    window.location = "/reservation/make_res?id=" + id + "&checkin=" + checkin + "&checkout=" + checkout;
+   }
+
+       $(function () {
+        $('#datetimepicker1').datetimepicker({
+                viewMode: 'days',
+                format: 'YYYY-MM-DD'
+        });
+        $('#datetimepicker2').datetimepicker({
+                viewMode: 'days',
+                format: 'YYYY-MM-DD'
+        });
+    });
+
    function setHotels(values){
     $("#table tbody tr").remove();
   var mixed = document.getElementById("table");
@@ -79,10 +131,7 @@
      txt.classList.add('btn');
      txt.classList.add('btn-primary')
      txt.innerText = "Book Now"
-     txt.setAttribute( "onClick", "window.location.href='/reservation/make_res?id=" + values[i][0] + "'" );
-     var txt2 = document.createTextNode(`<form>
-<input type="button" value="Put Your Text Here" onclick="window.location.href='http://www.hyperlinkcode.com/button-links.php'" />
-</form>`);
+     txt.setAttribute( "onClick", "findRooms(" + values[i][0] + ")" );
      td.appendChild(txt)
      tr.appendChild(td)
      // append row to table update
