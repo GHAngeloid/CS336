@@ -32,7 +32,7 @@ class Room(Hotel):
 
 '''
 x=tst1.date2-tst1.date1
-y=x.days*2
+y=x.days
 '''
 
 H1R1 = Room()
