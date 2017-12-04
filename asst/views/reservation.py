@@ -2,7 +2,9 @@ from flask import Blueprint, render_template, abort, flash
 from flask import request
 from asst.auth import require_role
 from itertools import *
-import traceback
+from asst.models import hotel, room, breakfast, service
+from flask_table import Table, Col, ButtonCol
+import traceback, sys
 import math
 import random
 import json
@@ -10,65 +12,107 @@ import time
 
 page = Blueprint('reservation', __name__, template_folder='templates')
 
+# Declare your table
+class ItemTable(Table):
+    '''
+    This is a itemTable class that generates text/html automatically to create a table for created reservations
+    '''
+    html_attrs = {'class': 'table table-striped'}
+    room_no = Col('Room Number')
+    max_guests = Col('Max Guests')
+    description = Col('Description')
+    price = Col('Price')
+    r_type = Col('Room Type')
+    order = ButtonCol('Order','reservation.order',url_kwargs=dict(rn='room_no', hid = 'hotel_id'),button_attrs={'class': 'btn btn-success'})
+
+
 @page.route("/",methods=['GET'])
 @require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
 def reservation(role):
     return render_template('reservation/index.html', logged_in=True,role=role)
-import datetime
-class Hotel:
-    Country = 'America'#default america
-    State= 'NJ'
+
+@page.route("/submit_order",methods=['POST'])
+@require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
+def submit_order(role):
+    try:
+        services = request.form.getlist('services')
+        cc = request.form['cc']
+    except:
+        traceback.print_exc(file=sys.stdout)
+        flash("Please enter a country and state to search", 'danger')
+        return render_template('reservation/index.html', logged_in=True,role=role)  
+    return render_template('reservation/thanks.html', logged_in=True,role=role)
+
+@page.route("/order",methods=['GET', 'POST'])
+@require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
+def order(role):
+    hotel_id = request.args.get('hid')
+    room_no = request.args.get('rn')
+    break_off = {}
+    serv_off = {}
+    for r in breakfast.Breakfast.select().where(breakfast.Breakfast.HotelID == hotel_id):
+        try:
+            break_off[r.BType] = dict(price = r.bPrice, desc =  r.Description, type =  r.BType)
+        except:
+            continue;
+    for s in service.Service.select().where(service.Service.HotelID == hotel_id):
+        try:
+            serv_off[s.sType] = dict(price = s.sCost, type =  s.sType)
+        except:
+            continue;
+    room_s = {}
+    for r in room.Room.select().where(room.Room.HotelID == hotel_id, room.Room.Room_no == room_no):
+        try:
+            room_s = dict(hotel_id = r.HotelID, room_no = r.Room_no, max_guests = r.Capacity, description = r.Description, price = r.Price, r_type = r.Type)
+        except:
+            continue;
+    return render_template('reservation/order_page.html', logged_in=True,role=role, break_off = break_off, room = room_s, serv_off = serv_off) 
 
 
-class Room(Hotel):
-    #manually add in service later Room.services = 'clean'
-    rType='single' # single,double,deluxe,suite
-    date1 = datetime.date.today()
-    date2 = datetime.date(2018, 1, 14)
-    eggs=0
-    orangeJuice=0
-    bacon=0
+@page.route("/make_res",methods=['GET'])
+@require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
+def make_res(role):
+    hotel_id = request.args.get('id')
+
+    rooms = []
+    for r in room.Room.select().where(room.Room.HotelID == hotel_id):
+        try:
+            rooms.append(dict(hotel_id = r.HotelID, room_no = r.Room_no, max_guests = r.Capacity, description = r.Description, price = r.Price, r_type = r.Type))
+        except:
+            continue;
+    table = ItemTable(rooms)
 
 
-'''
-x=tst1.date2-tst1.date1
-y=x.days
-'''
-
-H1R1 = Room()
-
-H1R2 = Room()
-H1R2.state='NY'
-
-H1R3 = Room()
-H1R3.state='FL'
-
-H2R1 = Room()
-H2R1.Country='Canada'
-
-H2R2 = Room()
-H1R2.state='NY'
-H2R2.Country='Canada'
-
-H2R3 = Room()
-H1R2.state='NY'
-H1R2.Country='NY'
+    return render_template('reservation/room_list.html', logged_in=True,role=role,table=table)
 
 
+@page.route("/load_hotel",methods=['POST'])
+@require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
+def get_hotels(role):
+    try:
+        data = request.get_json()
+        country = data['country']
+        state = data['state']
+        hotels = []
+        for h in hotel.Hotel.select().where(hotel.Hotel.State == state, hotel.Hotel.Country == country):
+            hotels.append([h.HotelID, h.City, h.State, h.Country])
+        return json.dumps(hotels)
+    except Exception as e:
+        traceback.print_exc(file=sys.stdout)
+        return "Error", 500
 
-H3R1 = Room()
-H3R2 = Room()
-H3R3 = Room()
-
-
+    return render_template('reservation/index.html', logged_in=True,role=role)
 
 @page.route('/search_reg',methods=['GET','POST'])
 @require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
 def search_reg(role):
     if request.method == 'POST':
-       searchC = request.form['searchC']
-       print(searchC)
-       flash("Got country: " + searchC, 'success')
+        try:
+            country = request.form['country']
+            state = request.form['state']
+        except:
+            flash("Please enter a country and state to search", 'danger')
+            return render_template('reservation/index.html', logged_in=True,role=role)  
     return render_template('reservation/index.html', logged_in=True,role=role)
 
 
