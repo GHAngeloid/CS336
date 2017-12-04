@@ -1,6 +1,6 @@
 {% extends "index.html" %}
 {% block body %}
-    <h2>Welcome</h2>
+    <legend>Search Hotels</legend>
         <div class = "row">
             <div class = "col-sm-4">
                 Search by Country: <input type="text" name="country" class = "form-control" id="country" placeholder="US" />
@@ -20,6 +20,7 @@
         <th>City</th>
         <th>State</th>
         <th>Country</th>
+        <th>Reserve</th>
       </tr>
     </thead>
   </table>
@@ -73,6 +74,17 @@
        tr.appendChild(td);
      }
 
+     var td = document.createElement("td")
+     var txt = document.createElement("BUTTON");  
+     txt.classList.add('btn');
+     txt.classList.add('btn-primary')
+     txt.innerText = "Book Now"
+     txt.setAttribute( "onClick", "window.location.href='/reservation/make_res?id=" + values[i][0] + "'" );
+     var txt2 = document.createTextNode(`<form>
+<input type="button" value="Put Your Text Here" onclick="window.location.href='http://www.hyperlinkcode.com/button-links.php'" />
+</form>`);
+     td.appendChild(txt)
+     tr.appendChild(td)
      // append row to table
      // IE7 requires append row to tbody, append tbody to table
      tbody.appendChild(tr);
