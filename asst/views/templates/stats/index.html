@@ -1,6 +1,57 @@
 {% extends "index.html" %}
 {% block body %}
+
     <h2>Welcome</h2>
+
+    <body>
+    <form action = '/stats/result' method = 'POST'>
+        <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                Begin Date:<div class='input-group date' id='datetimepicker1'>
+                    <input type='text' name="dateB" id="dateB" class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>
+    </div>
+        <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                End Date:<div class='input-group date' id='datetimepicker2'>
+                    <input type='text' name="dateE" id="dateE" class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker2').datetimepicker();
+            });
+        </script>
+    </div>
+    <select name="res" id="res">
+        <option value="Highest Rated Room Type">Highest Rated Room Type</option>
+        <option value="5 Best Customers">5 Best Customers</option>
+        <option value="Highest Rated Breakfast">Highest Rated Breakfast</option>
+        <option value="Highest Rated Service">Highest Rated Service</option>
+    </select>
+    <input type="submit" value="Search"/>
+    </form>
+
+    <ol>
+        <li>insert data here</li>
+        <li>data here</li>
+    </ol>
+    </body>
     <div>
-        This is the stats page
 {% endblock %}
