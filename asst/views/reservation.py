@@ -2,8 +2,11 @@ from flask import Blueprint, render_template, abort, flash
 from flask import request
 from asst.auth import require_role
 from itertools import *
-from asst.models import hotel, room, breakfast, service
+from asst.models import hotel, room, breakfast, service, card, res, discount
 from flask_table import Table, Col, ButtonCol
+import flask_login
+import datetime
+from dateutil.parser import parse
 import traceback, sys
 import math
 import random
@@ -23,7 +26,7 @@ class ItemTable(Table):
     description = Col('Description')
     price = Col('Price')
     r_type = Col('Room Type')
-    order = ButtonCol('Order','reservation.order',url_kwargs=dict(rn='room_no', hid = 'hotel_id'),button_attrs={'class': 'btn btn-success'})
+    order = ButtonCol('Order','reservation.order',url_kwargs=dict(rn='room_no', hid = 'hotel_id', checkin='checkin',checkout='checkout', price = 'price_num'),button_attrs={'class': 'btn btn-success'})
 
 
 @page.route("/",methods=['GET'])
@@ -35,8 +38,35 @@ def reservation(role):
 @require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
 def submit_order(role):
     try:
+        user = flask_login.current_user
+        cid = user.CID
+        now = datetime.datetime.now()
+        date_now =  now.strftime("%Y-%m-%d")
+        hotel_id = request.form['hotelid']
+        room_no = request.form['room_no']
+        guests = request.form['guests']
+        checkin = parse(request.form['checkin'])
+        checkout = parse(request.form['checkout'])
         services = request.form.getlist('services')
+        amer_break = request.form['b1']
+        beng_break = request.form['b2']
+        chin_break = request.form['b3']
+        mexi_break = request.form['b4']
+        card_name = request.form['cname']
         cc = request.form['cc']
+        ctype = request.form['ctype']
+        csv = request.form['csv']
+        billaddr = request.form['baddr']
+        cc_exp = request.form['ccexpire']
+        # make cc first
+        try:
+            card.CreditCard.create_card(cc, billaddr, card_name, csv, ctype, cc_exp)
+        except:
+            pass
+        # make res next
+        res.Reservation.create_res(date_now, checkout, checkin, room_no, hotel_id, cc, cid)
+        # make services
+
     except:
         traceback.print_exc(file=sys.stdout)
         flash("Please enter a country and state to search", 'danger')
@@ -48,37 +78,54 @@ def submit_order(role):
 def order(role):
     hotel_id = request.args.get('hid')
     room_no = request.args.get('rn')
+    checkin = request.args.get('checkin')
+    checkout = request.args.get('checkout')
+    price = request.args.get('price')
     break_off = {}
     serv_off = {}
     for r in breakfast.Breakfast.select().where(breakfast.Breakfast.HotelID == hotel_id):
         try:
             break_off[r.BType] = dict(price = r.bPrice, desc =  r.Description, type =  r.BType)
         except:
-            continue;
+            continue
     for s in service.Service.select().where(service.Service.HotelID == hotel_id):
         try:
             serv_off[s.sType] = dict(price = s.sCost, type =  s.sType)
         except:
-            continue;
+            continue
     room_s = {}
     for r in room.Room.select().where(room.Room.HotelID == hotel_id, room.Room.Room_no == room_no):
         try:
             room_s = dict(hotel_id = r.HotelID, room_no = r.Room_no, max_guests = r.Capacity, description = r.Description, price = r.Price, r_type = r.Type)
         except:
-            continue;
-    return render_template('reservation/order_page.html', logged_in=True,role=role, break_off = break_off, room = room_s, serv_off = serv_off) 
+            continue
+    return render_template('reservation/order_page.html', logged_in=True,role=role, break_off = break_off, price = price, room = room_s, serv_off = serv_off, prev_inf = [hotel_id, room_no]) 
 
 
 @page.route("/make_res",methods=['GET'])
 @require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
 def make_res(role):
-    hotel_id = request.args.get('id')
-
+    hotel_id = -1
+    try:
+        hotel_id = request.args.get('id')
+        checkin = parse(request.args.get('checkin'))
+        checkout = (request.args.get('checkout'))
+    except:
+        traceback.print_exc(file=sys.stdout)
+        flash("Could not find any rooms for the specified dates", 'danger')
     rooms = []
     for r in room.Room.select().where(room.Room.HotelID == hotel_id):
         try:
-            rooms.append(dict(hotel_id = r.HotelID, room_no = r.Room_no, max_guests = r.Capacity, description = r.Description, price = r.Price, r_type = r.Type))
+            dc = 0
+            price = str(r.Price)
+            for sav in  discount.Discount.select().where(discount.Discount.HotelID == hotel_id,discount.Discount.Room_no == r.Room_no, 
+               discount.Discount.SDate <= checkin, discount.Discount.EDate >= checkout):
+                dc = sav.Discount
+                price = '\u0336'.join(price) + '\u0336' + " " + str(round((1- dc) * r.Price,2))
+            rooms.append(dict(hotel_id = r.HotelID, room_no = r.Room_no, max_guests = r.Capacity, description = r.Description, price = price, r_type = r.Type, \
+                checkin = checkin, checkout = checkout, price_num = (1- dc) * r.Price))
         except:
+            traceback.print_exc(file=sys.stdout)
             continue;
     table = ItemTable(rooms)
 

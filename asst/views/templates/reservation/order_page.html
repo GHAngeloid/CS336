@@ -6,49 +6,14 @@
 <form action="submit_order"  method="post">
   <div class="form-group">
     <label >Guests</label>
-    <input type="number" class="form-control" name ="guests" id="guests" min="0" max="{{room.max_guests}}" placeholder="1">
+    <input type="number"  required class="form-control" name ="guests" id="guests" min="0" max="{{room.max_guests}}" placeholder="1">
     <small id="GHelp" class="form-text text-muted">Enter the amount of guests you want</small>
   </div>
 
-   <div class="form-group">
-    <label >Check in Date</label>
-    <div class="row">
-        <div class='col-sm-6'>
-            <div class="form-group">
-                <div class='input-group date' id='datetimepicker2'>
-                    <input type='text' name="checkin" class="form-control"  placeholder="12/04/2017"/>
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-    <small id="GHelp" class="form-text text-muted">Enter your check in date</small>
-  </div>
-</div>
-
-
-   <div class="form-group">
-    <label >Check out date</label>
-    <div class="row">
-        <div class='col-sm-6'>
-            <div class="form-group">
-                <div class='input-group date' id='datetimepicker3'>
-                    <input type='text' name="checkout" class="form-control"  placeholder="12/04/2017"/>
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-    <small id="GHelp" class="form-text text-muted">Enter your check out date</small>
-  </div>
-</div>
-
   <div class="form-group">
     <label >Available Services</label>
-    <a id = "clear" href = "#" onclick="clearSel()">Clear All</a>
-    <select multiple class="form-control" name = "services" id="services">
+    <a id = "clear" href = "#/" onclick="clearSel()">Clear All</a>
+    <select multiple class="form-control" name = "services" id="services" value=[""]>
     {% for s in serv_off %}
       <option>{{serv_off[s]['type']}} +${{serv_off[s]['price']}}</option>
       {% endfor %}
@@ -57,14 +22,14 @@
 
   <div class="form-group" {% if 'American' not in break_off %} style="display: none;" {% endif %}>
     <label >American Breakfast</label>
-    <input type="number" min="0" class="form-control" name = "b1" id="b1" placeholder="0" value = "0">
+    <input type="number"  required min="0" class="form-control" name = "b1" id="b1" placeholder="0" value = "0">
     <small id="bHelp" class="form-text text-muted">Enter the amount of American breakfast you want.
     American breakfast contains {% if 'American' in break_off %} {{break_off['American'].desc}} {% endif %}</small>
   </div>
 
   <div class="form-group" {% if 'Bengali' not in break_off %} style="display: none;" {% endif %}>
     <label >Bengali Breakfast</label>
-    <input type="number"  min="0" class="form-control" name = "b2" id="b2" placeholder="0" value = "0">
+    <input type="number"  required min="0" class="form-control" name = "b2" id="b2" placeholder="0" value = "0">
     <small id="bHelp" class="form-text text-muted">Enter the amount of Bengali breakfast you want
     Benagli breakfast contains {% if 'Bengali' in break_off %} {{break_off['Bengali'].desc}}{% endif %}</small>
   </div>
@@ -72,29 +37,48 @@
 
     <div class="form-group" {% if 'Chinese' not in break_off %} style="display: none;" {% endif %}>
     <label >Chinese Breakfast</label>
-    <input type="number" min="0" class="form-control" name = "b3" id="b3" placeholder="0" value = "0">
+    <input type="number"  required min="0" class="form-control" name = "b3" id="b3" placeholder="0" value = "0">
     <small id="bHelp" class="form-text text-muted">Enter the amount of Chinese breakfast you want
     Chinese breakfast contains {% if 'Chinese' in break_off %} {{break_off['Chinese'].desc}}{% endif %}</small>
   </div>
 
     <div class="form-group" {% if 'Mexican' not in break_off %} style="display: none;" {% endif %}>
     <label >Mexican Breakfast</label>
-    <input type="number" min="0" class="form-control" name = "b4" id="b4" placeholder="0" value = "0">
+    <input type="number" required min="0" class="form-control" name = "b4" id="b4" placeholder="0" value = "0">
     <small id="bHelp" class="form-text text-muted">Enter the amount of Mexican you want
     Mexican breakfast contains {% if 'Mexican' in break_off %} {{break_off['Mexican'].desc}}{% endif %}</small>
   </div>
 
   <div class="form-group">
     <label >Name on Card</label>
-    <input type="text" class="form-control" name = "cname" id="cname" placeholder="Minseok Park">
+    <input type="text"  required class="form-control" name = "cname" id="cname" placeholder="Minseok Park">
     <small id="GHelp" class="form-text text-muted">Enter your name as it appears on your card</small>
   </div>
 
   <div class="form-group">
     <label >Credit Card Number</label>
-    <input type="text" class="form-control" name = "cc" id="cc" placeholder="4839 4837 2832 4827">
-    <input type="text" class="form-control" name = "csv" id="csv" placeholder="435">
-    <small id="GHelp" class="form-text text-muted">Enter your credit card number and security code</small>
+    <input type="text"  required class="form-control" name = "cc" id="cc" placeholder="4839 4837 2832 4827">
+    <input type="text"  required class="form-control" name = "csv" id="csv" placeholder="435">
+    <input type="hidden"  required id="ctype" name = "ctype" value="Visa">
+    <div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="ctypeD" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Visa
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="#/">Visa</a></li>
+    <li><a href="#/">Mastercard</a></li>
+    <li><a href="#/">Chase</a></li>
+    <li><a href="#/">Discover</a></li>
+  </ul>
+</div>
+    <small id="GHelp" class="form-text text-muted">Enter your credit card number, security code, and card type</small>
+  </div>
+
+  <div class="form-group">
+    <label >Billing Address</label>
+    <input type="text"  required class="form-control" name = "baddr" id="baddr" placeholder="172 George Street, New Brunswick NJ, 08756">
+    <small id="GHelp" class="form-text text-muted">Enter your billing address</small>
   </div>
 
     <div class="form-group">
@@ -103,7 +87,7 @@
         <div class='col-sm-6'>
             <div class="form-group">
                 <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" name="ccexpire" placeholder="12/04/2017"/>
+                    <input required type='text' class="form-control" name="ccexpire" placeholder="12/04/2017"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -113,31 +97,50 @@
     <small id="GHelp" class="form-text text-muted">Enter your credit card number and security code</small>
   </div>
 </div>
-<input type="hidden" id="price" name = "price" value={{room.price}}>
-<div id='price_div'>Total: $<span id="price_val">{{room.price}}</span></div>
+<input type="hidden"  required id="price" name = "price" value={{price}}>
+<input type="hidden"  required id="hotelid" name = "hotelid" value={{prev_inf[0]}}>
+<input type="hidden"  required id="room_no" name = "room_no" value={{prev_inf[1]}}>
+<input type="hidden"  required id="checkin" name = "checkin" value={{checkin}}>
+<input type="hidden"  required id="checkout" name = "checkout" value={{checkout}}>
+<div id='price_div'>Total: $<span id="price_val">{{price}}</span></div>
 <button type="submit" class="btn btn-primary">Place Order</button>
 </form>
 
 <script type="text/javascript">
+
+  function setAktivMenu(text) {
+   $('#ctypeD').val(text).html(function(i, html) {
+       return text + html.slice(html.indexOf(' <'));
+   });
+}
+
+  $('#ctypeD + .dropdown-menu').on('click', 'li>a', function() {
+    $('#ctype').val($(this).text())
+   setAktivMenu($(this).text());
+});
+
     $(function () {
         $('#datetimepicker1').datetimepicker({
                 viewMode: 'days',
-                format: 'MM/DD/YYYY'
+                format: 'YYYY-MM-DD'
         });
         $('#datetimepicker2').datetimepicker({
                 viewMode: 'days',
-                format: 'MM/DD/YYYY'
+                format: 'YYYY-MM-DD'
         });
         $('#datetimepicker3').datetimepicker({
                 viewMode: 'days',
-                format: 'MM/DD/YYYY'
+                format: 'YYYY-MM-DD'
         });
     });
 
 var service_cost = 0
  var breakfast_cost = 0
 
-$("#b1, #b2, #b3, #b4").on("change paste keyup", function() {
+$("#b1, #b2, #b3, #b4").on("change paste keyup mouseup", function() {
+  if($(this).val() < 0){
+    $(this).val(0)
+  }
 	$('#price').val(parseFloat($('#price').val()) - breakfast_cost)
    base_price = 0
    base_price += parseFloat($('#b1').val()) * {% if 'American' in break_off %} {{break_off['American'].price}} {% else %} 0 {% endif %}
@@ -148,6 +151,14 @@ $("#b1, #b2, #b3, #b4").on("change paste keyup", function() {
    $('#price').val(parseFloat($('#price').val()) + base_price)
    $('#price_val').text($('#price').val())
 
+});
+
+$("#guests").on("change paste keyup mouseup", function() {
+  if($(this).val() > {{room.max_guests}}){
+    $(this).val({{room.max_guests}})
+  } else if ($(this).val() < 0){
+    $(this).val(0)
+  }
 });
 
 $(function() {
