@@ -1,15 +1,15 @@
 {% extends "index.html" %}
 {% block body %}
+
     <h2>Welcome</h2>
 
     <body>
-    <p>Highest rated room</p>
-    <form action = '/number1' method = 'POST'>
-            <div class="row">
+    <form action = '/stats/result' method = 'POST'>
+        <div class="row">
         <div class='col-sm-6'>
             <div class="form-group">
-                <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" />
+                Begin Date:<div class='input-group date' id='datetimepicker1'>
+                    <input type='text' name="dateB" id="dateB" class="form-control" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -22,30 +22,29 @@
             });
         </script>
     </div>
-    Begin Date: <input type="text" name="dateB" id="dateB"/>
-    End Date: <input type="text" name="dateE" id="dateE"/>
-    <input type="submit" value="Search"/>
-    </form>
-
-
-    <p>Top 5 spenders</p>
-    <form action = '/number2' method = 'POST'>
-    Begin Date: <input type="text" name="dateB2" id="dateB2"/>
-    End Date: <input type="text" name="dateE2" id="dateE2"/>
-    <input type="submit" value="Search"/>
-    </form>
-
-     <p>Highest Rated Breakfast</p>
-    <form action = '/number3' method = 'POST'>
-    Begin Date: <input type="text" name="dateB3" id="dateB3"/>
-    End Date: <input type="text" name="dateE3" id="dateE3"/>
-    <input type="submit" value="Search"/>
-    </form>
-
-     <p>Highest Rated Service</p>
-    <form action = '/number4' method = 'POST'>
-    Begin Date: <input type="text" name="dateB4" id="dateB4"/>
-    End Date: <input type="text" name="dateE4" id="dateE4"/>
+        <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                End Date:<div class='input-group date' id='datetimepicker2'>
+                    <input type='text' name="dateE" id="dateE" class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker2').datetimepicker();
+            });
+        </script>
+    </div>
+    <select name="res" id="res">
+        <option value="Highest Rated Room Type">Highest Rated Room Type</option>
+        <option value="5 Best Customers">5 Best Customers</option>
+        <option value="Highest Rated Breakfast">Highest Rated Breakfast</option>
+        <option value="Highest Rated Service">Highest Rated Service</option>
+    </select>
     <input type="submit" value="Search"/>
     </form>
 

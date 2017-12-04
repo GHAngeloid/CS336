@@ -9,6 +9,9 @@ import json
 import time
 
 import datetime
+
+print("TEST")
+
 class reser:
     date1=datetime.date(2015, 1, 1)
     date2=datetime.date(2018, 4, 5)
@@ -41,42 +44,22 @@ def stats(role):
 
 
 
-@page.route('/number1',methods=['GET','POST'])
+@page.route('/result',methods=['GET','POST'])
 @require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
-def number1(role):
+def result(role):
     if request.method == 'POST':
-       dateB = request.form['dateB']
-       dateE = request.form['dateE']
-
-    return render_template('reservation/index.html', logged_in=True,role=role)
-
-def number1_ex(dateB,dateE):
-   x=8
-
-
-@page.route('/number2',methods=['GET','POST'])
-@require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
-def number2(role):
-    if request.method == 'POST':
-       dateB2 = request.form['dateB2']
-       dateE2 = request.form['dateE2']
-
-    return render_template('reservation/index.html', logged_in=True,role=role)
-
-@page.route('/number3',methods=['GET','POST'])
-@require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
-def number3(role):
-    if request.method == 'POST':
-       dateB3 = request.form['dateB3']
-       dateE3 = request.form['dateE3']
-
-    return render_template('reservation/index.html', logged_in=True,role=role)
-
-@page.route('/number4',methods=['GET','POST'])
-@require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
-def number4(role):
-    if request.method == 'POST':
-       dateB4 = request.form['dateB4']
-       dateE4 = request.form['dateE4']
-
-    return render_template('reservation/index.html', logged_in=True,role=role)
+        res = request.form['res']
+        dateB = request.form['dateB']
+        dateE = request.form['dateE']
+        print(res)
+        print(dateB)
+        print(dateE)
+        if res == 'Highest Rated Room Type':
+            print(1)
+        if res == '5 Best Customers':
+            print(2)
+        if res == 'Highest Rated Breakfast':
+            print(3)
+        if res == 'Highest Rated Service':
+            print(4)
+    return render_template('stats/index.html', logged_in=True,role=role)
