@@ -69,7 +69,7 @@ def submit_order(role):
 
     except:
         traceback.print_exc(file=sys.stdout)
-        flash("Please enter a country and state to search", 'danger')
+        flash("There was an error processing your request. Please try again", 'danger')
         return render_template('reservation/index.html', logged_in=True,role=role)  
     return render_template('reservation/thanks.html', logged_in=True,role=role)
 
@@ -99,7 +99,7 @@ def order(role):
             room_s = dict(hotel_id = r.HotelID, room_no = r.Room_no, max_guests = r.Capacity, description = r.Description, price = r.Price, r_type = r.Type)
         except:
             continue
-    return render_template('reservation/order_page.html', logged_in=True,role=role, break_off = break_off, price = price, room = room_s, serv_off = serv_off, prev_inf = [hotel_id, room_no]) 
+    return render_template('reservation/order_page.html', logged_in=True,role=role, break_off = break_off, price = price, room = room_s, serv_off = serv_off, checkin = checkin, checkout = checkout, prev_inf = [hotel_id, room_no]) 
 
 
 @page.route("/make_res",methods=['GET'])
@@ -109,7 +109,7 @@ def make_res(role):
     try:
         hotel_id = request.args.get('id')
         checkin = parse(request.args.get('checkin'))
-        checkout = (request.args.get('checkout'))
+        checkout = parse(request.args.get('checkout'))
     except:
         traceback.print_exc(file=sys.stdout)
         flash("Could not find any rooms for the specified dates", 'danger')
