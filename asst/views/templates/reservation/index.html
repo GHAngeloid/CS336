@@ -1,15 +1,146 @@
 {% extends "index.html" %}
 {% block body %}
-    <h2>Welcome</h2>
+    <legend>Search Hotels</legend>
+        <div class = "row">
+            <div class = "col-sm-4">
+                Search by Country: <input type="text" name="country" class = "form-control" id="country" placeholder="US" />
+            </div>
+            <div class = "col-sm-4">
+                Search by State: <input type="text" name="state" class = "form-control" id="state" placeholder="NJ" />
+            </div>
+            <br>
+            <input type="submit" id = 'searchHotel' class = "btn btn-primary" value="Search"/>
+        </div>
 
-    <body>
-    <form action ='/reservation/search_reg' method='POST'>
-    Search by Country: <input type="text" name="searchC" id="searchC"/>
-    Search by State: <input type="text" name="searchS" id="searchS"/>
-    <input type="submit" value="Search"/>
-    </form>
+   <div class="form-group">
+    <label >Check in Date</label>
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text'  required name="checkin" id="checkin" class="form-control"  placeholder="2017-12-04"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    <small id="GHelp" class="form-text text-muted">Enter your check in date</small>
+  </div>
+</div>
 
-    </body>
-    <div>
-        This is the reservation page
+
+   <div class="form-group">
+    <label >Check out date</label>
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker2'>
+                    <input type='text'  required name="checkout" id="checkout" class="form-control"  placeholder="2017-12-04"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    <small id="GHelp" class="form-text text-muted">Enter your check out date</small>
+  </div>
+</div>
+
+    <div id="hotelList" style="display: none;">
+  <table class="table table-striped" id = 'table'>
+    <thead>
+      <tr>
+        <th>Hotel ID</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Country</th>
+        <th>Reserve</th>
+      </tr>
+    </thead>
+  </table>
+
+    </div>
+
+
+<script>
+
+   $( "#searchHotel" ).click(function() {
+    $("#hotelList").css('display', 'inline');
+    loadHotels()
+  });
+
+
+   function loadHotels(){
+    country = $('#country').val()
+    state = $('#state').val()
+
+    $.ajax({
+    url: "/reservation/load_hotel",
+    type: "POST",
+    data: JSON.stringify({country: country, state: state}),
+    contentType: "application/json; charset=utf-8",
+    success: function(data) { result = JSON.parse(data); 
+        console.log(result)
+        setHotels(result)
+    },
+    error: function(xhr, textStatus, errorThrown){
+    }
+});
+
+
+
+   }
+
+   function findRooms(id){
+    checkin = $('#checkin').val()
+    checkout = $('#checkout').val()
+    window.location = "/reservation/make_res?id=" + id + "&checkin=" + checkin + "&checkout=" + checkout;
+   }
+
+       $(function () {
+        $('#datetimepicker1').datetimepicker({
+                viewMode: 'days',
+                format: 'YYYY-MM-DD'
+        });
+        $('#datetimepicker2').datetimepicker({
+                viewMode: 'days',
+                format: 'YYYY-MM-DD'
+        });
+    });
+
+   function setHotels(values){
+    $("#table tbody tr").remove();
+  var mixed = document.getElementById("table");
+  var tbody = document.createElement("tbody");
+  // for each outer array row
+  for (var i = 0 ; i < values.length; i++) {
+     var tr = document.createElement("tr");
+
+     // for each inner array cell
+     // create td then text, append
+     for (var j = 0; j < values[i].length; j++) {
+       var td = document.createElement("td");
+       var txt = document.createTextNode(values[i][j]);
+       td.appendChild(txt);
+       tr.appendChild(td);
+     }
+
+     var td = document.createElement("td")
+     var txt = document.createElement("BUTTON");  
+     txt.classList.add('btn');
+     txt.classList.add('btn-primary')
+     txt.innerText = "Book Now"
+     txt.setAttribute( "onClick", "findRooms(" + values[i][0] + ")" );
+     td.appendChild(txt)
+     tr.appendChild(td)
+     // append row to table update
+     // IE7 requires append row to tbody, append tbody to table
+     tbody.appendChild(tr);
+     mixed.appendChild(tbody);
+    }
+    }
+
+</script>
+
 {% endblock %}
