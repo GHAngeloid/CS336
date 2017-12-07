@@ -1,17 +1,26 @@
 {% extends "index.html" %}
 {% block body %}
-    <h2>Welcome</h2>
+    <h2>Feedback</h2>
+    Please leave feedback only on what you have personally experienced. <br/>
     <div>
         </div>
+    Review Type:
     <select name="res" id="res">
         <option value ="0"> NONE</option>
         <option value="1">Room Review</option>
         <option value="2">Breakfast Review</option>
         <option value="3">Service Review</option>
     </select>
-    <div style = 'display: none;' id = 'RoomRev' ><br/>&nbsp;
-    <br/>
+    <div style = 'display: none;' id = 'RoomRev' ><br/>
         Room Type : <br/>
+        <select name="rtype" id="rtype">
+            <option value ="rno"> NONE</option>
+            <option value="sin">Single</option>
+            <option value="dou">Double</option>
+            <option value="del">Deluxe</option>
+            <option value="sui">Suite</option>
+        </select><br/>&nbsp;
+        <br/>
         Rating: <br/>
         <label class="radio-inline"><input type="radio" name="optradio">1/5</label>  &nbsp;
         <label class="radio-inline"><input type="radio" name="optradio">2/5</label>  &nbsp;
@@ -25,9 +34,16 @@
         <br/>
         <div><input type="submit" value="Submit"/></div>
     </div>
-    <div style ='display: none;' id = 'BFRev'><br/>&nbsp;
-    <br/>
+    <div style ='display: none;' id = 'BFRev'><br/>
         Breakfast Type : <br/>
+        <select name="bftype" id="bftype">
+            <option value ="bno"> NONE</option>
+            <option value="ben">Bengali</option>
+            <option value="ame">American</option>
+            <option value="chi">Chinese</option>
+            <option value="mex">Mexican</option>
+        </select><br/>&nbsp;
+        <br/>
         Rating: <br/>
         <label class="radio-inline"><input type="radio" name="optradio">1/5</label>  &nbsp;
         <label class="radio-inline"><input type="radio" name="optradio">2/5</label>  &nbsp;
@@ -41,9 +57,15 @@
         <br/>
         <div><input type="submit" value="Submit"/></div>
     </div>
-    <div style ='display: none;' id = 'SRev'><br/>&nbsp;
-    <br/>
+    <div style ='display: none;' id = 'SRev'><br/>
         Services Offered: <br/>
+        <select name="stype" id="stype">
+            <option value ="sno"> NONE</option>
+            <option value="cle">Cleaning</option>
+            <option value="lau">Laundry</option>
+            <option value="wfi">Wi-Fi</option>
+        </select><br/> &nbsp;
+        <br/>
         Rating: <br/>
         <label class="radio-inline"><input type="radio" name="optradio">1/5</label>  &nbsp;
         <label class="radio-inline"><input type="radio" name="optradio">2/5</label>  &nbsp;
