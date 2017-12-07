@@ -15,9 +15,9 @@ class review(UserMixin, BaseModel):
         - manager
     '''
     ReviewID = IntegerField(primary_key=True)
-    Rating = IntegerField
-    TextComment =  CharField()
-    CID = IntegerField
+    Rating = IntegerField()
+    TextComment = CharField()
+    CID = IntegerField()
 
 
 

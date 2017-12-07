@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, abort, flash
 from flask import request
 from asst.auth import require_role
-from asst.models import res, user, room
+from asst.models import res, user, room, review
 from itertools import *
 import traceback, sys
 import math
@@ -54,16 +54,25 @@ def result(role):
         dateB = request.form['dateB']
         dateE = request.form['dateE']
         print(result)
-        print(dateB)
-        print(dateE)
+        #print(dateB)
+        #print(dateE)
         test=[]
         if result == 'Highest Rated Room Type':
-            #res.Reservation.InDate
-            #res.Reservation.OutDate
             try:
-                #data = request.get_json()
                 for r in res.Reservation.select().where(res.Reservation.InDate >= dateB, res.Reservation.OutDate <= dateE):
-                    test.append([r.InDate, r.OutDate])
+                    temp = r.CID
+                    test.append([r.InDate, r.OutDate, temp])
+                    #print(temp)
+                    for s in review.review.select().where(review.review.CID == temp):
+                        # Anthony, how the heck did you forget parentheses on IntegerFields?????
+                        print(s.ReviewID, s.Rating, s.TextComment)
+                        # prints every single review from given CID
+
+                        #print(review.review.CID)
+                #review.Review.CID
+                #review.Review.Rating
+                #review.Review.TextComment
+
                 print(test)
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
@@ -71,33 +80,51 @@ def result(role):
             print(1)
             # need Room_no and HotelID to access Room data
             # need review.py
+            # must access ONLY Room Reviews
         if result == '5 Best Customers':
             try:
                 print(" ")
+
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
                 return "Error", 500
             print(2)
             # need CID of Customer to access User data
             # goes by costs
+            # need TotalAmt
         if result == 'Highest Rated Breakfast':
             try:
-                print(" ")
+                for r in res.Reservation.select().where(res.Reservation.InDate >= dateB, res.Reservation.OutDate <= dateE):
+                    temp = r.CID
+                    test.append([r.InDate, r.OutDate, temp])
+                    #print(temp)
+                    for s in review.review.select().where(review.review.CID == temp):
+                        print(s.ReviewID, s.Rating, s.TextComment)
+                        # prints every single review from given CID
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
                 return "Error", 500
             print(3)
             # need bType and HotelID to access breakfast data
             # need review.py
+            # must access ONLY Breakfast Reviews
         if result == 'Highest Rated Service':
             try:
-                print(" ")
+                for r in res.Reservation.select().where(res.Reservation.InDate >= dateB, res.Reservation.OutDate <= dateE):
+                    temp = r.CID
+                    test.append([r.InDate, r.OutDate, temp])
+                    #print(temp)
+                    for s in review.review.select().where(review.review.CID == temp):
+                        # Anthony, how the heck did you forget parentheses on IntegerFields?????
+                        print(s.ReviewID, s.Rating, s.TextComment)
+                        # prints every single review from given CID
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
                 return "Error", 500
             print(4)
             # need sType and HotelID to access Service data
             # need review.py
+            # must access ONLY Service Reviews
 
         # might need a try/except when fetching for dates
         # idea: for each result, have the result page include a list. this result page is called stat_list.html
