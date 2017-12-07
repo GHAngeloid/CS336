@@ -24,6 +24,7 @@ class Reservation(UserMixin, BaseModel):
     HotelID = IntegerField()
     CNumber = CharField()
     CID = IntegerField()
+    TotalAmt = FloatField()  #new field to account for partial key 'TotalAmt'
 
 
     @classmethod

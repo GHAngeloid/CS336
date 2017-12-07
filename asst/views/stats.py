@@ -81,17 +81,45 @@ def result(role):
             # need Room_no and HotelID to access Room data
             # need review.py
             # must access ONLY Room Reviews
+            # Status: Incomplete
         if result == '5 Best Customers':
             try:
-                print(" ")
+                CIDArray = []
+                TotalAmountArray = []
+                i = 0
+                for r in res.Reservation.select().where(res.Reservation.InDate >= dateB, res.Reservation.OutDate <= dateE):
+                    temp = r.CID
+                    test.append([r.InDate, r.OutDate, temp, r.TotalAmt])
+                    #print(temp, r.TotalAmt)
 
+                    if r.CID in CIDArray:
+                        key = CIDArray.index(r.CID)
+                        TotalAmountArray[key] += r.TotalAmt
+                    else:
+                        CIDArray.append(r.CID)
+                        TotalAmountArray.append(r.TotalAmt)
+                        i += 1
+                x = 0
+                print(CIDArray, TotalAmountArray)
+                sortedList = sorted(TotalAmountArray, reverse=True)
+                i = 0  # sorted index
+                newCIDArray = []
+                #print(sortedList)
+                while i < len(CIDArray):
+                    j = 0  # unsorted index
+                    while sortedList[i] != TotalAmountArray[j] and j < len(CIDArray):
+                        j += 1
+                    newCIDArray.append(CIDArray[j])
+                    i += 1
+                print(newCIDArray, sortedList)
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
                 return "Error", 500
             print(2)
             # need CID of Customer to access User data
             # goes by costs
-            # need TotalAmt
+            # need TotalAmt : DONE
+            # Status: Incomplete
         if result == 'Highest Rated Breakfast':
             try:
                 for r in res.Reservation.select().where(res.Reservation.InDate >= dateB, res.Reservation.OutDate <= dateE):
@@ -108,6 +136,7 @@ def result(role):
             # need bType and HotelID to access breakfast data
             # need review.py
             # must access ONLY Breakfast Reviews
+            # Status: Incomplete
         if result == 'Highest Rated Service':
             try:
                 for r in res.Reservation.select().where(res.Reservation.InDate >= dateB, res.Reservation.OutDate <= dateE):
@@ -117,6 +146,8 @@ def result(role):
                     for s in review.review.select().where(review.review.CID == temp):
                         # Anthony, how the heck did you forget parentheses on IntegerFields?????
                         print(s.ReviewID, s.Rating, s.TextComment)
+
+
                         # prints every single review from given CID
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
@@ -125,6 +156,7 @@ def result(role):
             # need sType and HotelID to access Service data
             # need review.py
             # must access ONLY Service Reviews
+            # Status: Incomplete
 
         # might need a try/except when fetching for dates
         # idea: for each result, have the result page include a list. this result page is called stat_list.html
