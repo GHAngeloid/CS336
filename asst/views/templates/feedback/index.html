@@ -2,5 +2,109 @@
 {% block body %}
     <h2>Welcome</h2>
     <div>
-        This is the feedback page---test
+        </div>
+    <select name="res" id="res">
+        <option value ="0"> NONE</option>
+        <option value="1">Room Review</option>
+        <option value="2">Breakfast Review</option>
+        <option value="3">Service Review</option>
+    </select>
+    <div style = 'display: none;' id = 'RoomRev' ><br/>&nbsp;
+    <br/>
+        Rating: <br/>
+        Thoughts on the room? <br/>
+        <textarea maxlength = "144" id =description name = 'description' cols = "50" rows = "6" ></textarea>
+        <div id ="textarea_feedback"></div>
+        <br/>
+        <div><input type="submit" value="Search"/></div>
+    </div>
+    <div style ='display: none;' id = 'BFRev'><br/>&nbsp;
+    <br/>
+        Rating: <br/> 
+        Thoughts on the food? <br/>
+        <textarea maxlength = "144" id =description2 name = 'description2' cols = "50" rows = "6" ></textarea>
+        <div id ="textarea_feedback2"></div>
+        <br/>
+        <div><input type="submit" value="Search"/></div>
+    </div>
+    <div style ='display: none;' id = 'SRev'><br/>&nbsp;
+    <br/>
+        Rating: <br/>
+        Thoughts on the service?<br/>
+        <textarea maxlength = "144" id =description3 name = 'description3' cols = "50" rows = "6" ></textarea>
+        <div id ="textarea_feedback3"></div>
+        <br/>
+        <div><input type="submit" value="Search"/></div>
+    </div>
+    <script>
+    $(document).ready(function(){
+        $('#res').on('change',function(){
+            if( this.value == '1')
+            {
+                $("#RoomRev").show();
+                $("#BFRev").hide();
+                $("#SRev").hide();
+            }
+            else if(this.value == '2')
+            {
+                $("#BFRev").show();
+                $("#RoomRev").hide();
+                $("#SRev").hide();
+            }
+            else if(this.value == '3')
+            {
+                $("#SRev").show();
+                $("#RoomRev").hide();
+                $("#BFRev").hide();
+            }
+            else
+            {
+                $("#RoomRev").hide();
+                $("#BFRev").hide();
+                $("#SRev").hide();
+            }
+        });
+    });
+    </script>
+    <script>
+    $(document).ready(function() {
+    var text_max = 144;
+    $('#textarea_feedback').html(text_max + ' characters remaining');
+
+    $('#description').keyup(function() {
+        var text_length = $('#description').val().length;
+        var text_remaining = text_max - text_length;
+
+        $('#textarea_feedback').html(text_remaining + ' characters remaining');
+        });
+    });
+    </script>
+    <script>
+    $(document).ready(function() {
+    var text_max = 144;
+    $('#textarea_feedback2').html(text_max + ' characters remaining');
+
+    $('#description2').keyup(function() {
+        var text_length = $('#description2').val().length;
+        var text_remaining = text_max - text_length;
+
+        $('#textarea_feedback2').html(text_remaining + ' characters remaining');
+        });
+    });
+    </script>
+    <script>
+    $(document).ready(function() {
+    var text_max = 144;
+    $('#textarea_feedback3').html(text_max + ' characters remaining');
+
+    $('#description3').keyup(function() {
+        var text_length = $('#description3').val().length;
+        var text_remaining = text_max - text_length;
+
+        $('#textarea_feedback3').html(text_remaining + ' characters remaining');
+        });
+    });
+    </script>
+
+
 {% endblock %}
