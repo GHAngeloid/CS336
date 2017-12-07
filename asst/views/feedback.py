@@ -16,12 +16,3 @@ page = Blueprint('feedback', __name__, template_folder='templates')
 @require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
 def feedback(role):
     return render_template('feedback/index.html', logged_in=True,role=role)
-def connect_to_db():
-    """Connect to the database before each request."""
-    try:
-        db.connect()
-        flash('Connected to db', 'success')
-    except:
-        traceback.print_exc(file=sys.stdout)
-        flash('Cannot connect to database', 'danger')
-        pass
