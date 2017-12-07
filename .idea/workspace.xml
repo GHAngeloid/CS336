@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9600918-c4b0-47df-8969-fed3b43b746f" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/asst/models/res.py" afterPath="$PROJECT_DIR$/asst/models/res.py" />
       <change beforePath="$PROJECT_DIR$/asst/views/stats.py" afterPath="$PROJECT_DIR$/asst/views/stats.py" />
+      <change beforePath="$PROJECT_DIR$/asst/views/templates/stats/index.html" afterPath="$PROJECT_DIR$/asst/views/templates/stats/index.html" />
+      <change beforePath="$PROJECT_DIR$/asst/views/templates/stats/stat_list.html" afterPath="$PROJECT_DIR$/asst/views/templates/stats/stat_list.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,6 +27,16 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="user.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/asst/models/user.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="review.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/asst/models/review.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -35,16 +45,6 @@
               <folding>
                 <element signature="e#109#193#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base_model.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/asst/models/base_model.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="20" column="44" lean-forward="true" selection-start-line="20" selection-start-column="44" selection-end-line="20" selection-end-column="44" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -62,8 +62,8 @@
       <file leaf-file-name="reservation.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/asst/views/reservation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="951">
-              <caret line="82" column="9" lean-forward="false" selection-start-line="82" selection-start-column="4" selection-end-line="82" selection-end-column="9" />
+            <state relative-caret-position="227">
+              <caret line="123" column="87" lean-forward="false" selection-start-line="123" selection-start-column="87" selection-end-line="123" selection-end-column="87" />
               <folding>
                 <element signature="e#0#58#0" expanded="true" />
               </folding>
@@ -71,11 +71,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="order_page.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/asst/views/templates/reservation/order_page.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="266">
+              <caret line="182" column="34" lean-forward="false" selection-start-line="182" selection-start-column="29" selection-end-line="182" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="stats.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/asst/views/stats.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="35" lean-forward="true" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
+            <state relative-caret-position="521">
+              <caret line="156" column="48" lean-forward="false" selection-start-line="156" selection-start-column="48" selection-end-line="156" selection-end-column="48" />
               <folding>
                 <element signature="e#0#58#0" expanded="true" />
               </folding>
@@ -86,8 +96,18 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/asst/views/templates/stats/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="14" lean-forward="true" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
+            <state relative-caret-position="855">
+              <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="stat_list.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/asst/views/templates/stats/stat_list.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="14" lean-forward="true" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -114,6 +134,9 @@
       <find>numbeer</find>
       <find>time</find>
       <find>price_val</find>
+      <find>amount</find>
+      <find>total</find>
+      <find>{{price}}</find>
       <find>price</find>
     </findStrings>
   </component>
@@ -131,10 +154,10 @@
         <option value="$PROJECT_DIR$/asst/views/templates/head.html" />
         <option value="$PROJECT_DIR$/asst/views/templates/stats/result_list.html" />
         <option value="$PROJECT_DIR$/asst/views/templates/reservation/index.html" />
-        <option value="$PROJECT_DIR$/asst/views/templates/stats/stat_list.html" />
-        <option value="$PROJECT_DIR$/asst/views/templates/stats/index.html" />
         <option value="$PROJECT_DIR$/asst/models/review.py" />
         <option value="$PROJECT_DIR$/asst/models/res.py" />
+        <option value="$PROJECT_DIR$/asst/views/templates/stats/index.html" />
+        <option value="$PROJECT_DIR$/asst/views/templates/stats/stat_list.html" />
         <option value="$PROJECT_DIR$/asst/views/stats.py" />
       </list>
     </option>
@@ -346,20 +369,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/asst/views/register.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/asst/views/templates/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="9" column="25" lean-forward="false" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/asst/auth.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="157">
@@ -563,20 +572,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/asst/views/templates/reservation/room_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="14" lean-forward="true" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/asst/views/templates/stats/stat_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/asst/models/discount.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -647,10 +642,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/asst/views/templates/reservation/order_page.html">
+    <entry file="file://$PROJECT_DIR$/asst/models/base_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="100" column="83" lean-forward="true" selection-start-line="100" selection-start-column="83" selection-end-line="100" selection-end-column="83" />
+        <state relative-caret-position="270">
+          <caret line="20" column="44" lean-forward="true" selection-start-line="20" selection-start-column="44" selection-end-line="20" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/asst/views/templates/reservation/room_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="14" lean-forward="true" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/asst/views/templates/reservation/thanks.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/asst/models/res.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="26" column="47" lean-forward="false" selection-start-line="26" selection-start-column="47" selection-end-line="26" selection-end-column="47" />
+          <folding>
+            <element signature="e#109#204#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/asst/models/card.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -662,10 +692,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/asst/views/templates/stats/index.html">
+    <entry file="file://$PROJECT_DIR$/asst/views/templates/reservation/order_page.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="14" lean-forward="true" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
+        <state relative-caret-position="266">
+          <caret line="182" column="34" lean-forward="false" selection-start-line="182" selection-start-column="29" selection-end-line="182" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/asst/views/reservation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="123" column="87" lean-forward="false" selection-start-line="123" selection-start-column="87" selection-end-line="123" selection-end-column="87" />
+          <folding>
+            <element signature="e#0#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/asst/models/service.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -680,46 +728,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/asst/models/res.py">
+    <entry file="file://$PROJECT_DIR$/asst/views/templates/stats/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="26" column="47" lean-forward="false" selection-start-line="26" selection-start-column="47" selection-end-line="26" selection-end-column="47" />
-          <folding>
-            <element signature="e#109#204#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/asst/views/reservation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="951">
-          <caret line="82" column="9" lean-forward="false" selection-start-line="82" selection-start-column="4" selection-end-line="82" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#58#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/asst/models/base_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="20" column="44" lean-forward="true" selection-start-line="20" selection-start-column="44" selection-end-line="20" selection-end-column="44" />
+        <state relative-caret-position="855">
+          <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/asst/models/service.py">
+    <entry file="file://$PROJECT_DIR$/asst/views/templates/stats/stat_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="210">
+          <caret line="14" column="14" lean-forward="true" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/asst/views/stats.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="35" lean-forward="true" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
+        <state relative-caret-position="521">
+          <caret line="156" column="48" lean-forward="false" selection-start-line="156" selection-start-column="48" selection-end-line="156" selection-end-column="48" />
           <folding>
             <element signature="e#0#58#0" expanded="true" />
           </folding>

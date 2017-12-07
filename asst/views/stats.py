@@ -49,6 +49,9 @@ def stats(role):
 @page.route('/stat_list',methods=['GET','POST'])
 @require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
 def result(role):
+
+    if request.method == 'GET':
+        return render_template('stats/stat_list.html', logged_in=True,role=role)
     if request.method == 'POST':
         result = request.form['res']
         dateB = request.form['dateB']
@@ -59,13 +62,13 @@ def result(role):
         test=[]
         if result == 'Highest Rated Room Type':
             try:
-                for r in res.Reservation.select().where(res.Reservation.InDate >= dateB, res.Reservation.OutDate <= dateE):
+                for r in res.Reservation.select().where(res.Reservation.InDate >= dateB and res.Reservation.OutDate <= dateE):
                     temp = r.CID
                     test.append([r.InDate, r.OutDate, temp])
                     #print(temp)
-                    for s in review.review.select().where(review.review.CID == temp):
+                    #for s in review.review.select().where(review.review.CID == temp):
                         # Anthony, how the heck did you forget parentheses on IntegerFields?????
-                        print(s.ReviewID, s.Rating, s.TextComment)
+                        #print(s.ReviewID, s.Rating, s.TextComment)
                         # prints every single review from given CID
 
                         #print(review.review.CID)
@@ -73,7 +76,7 @@ def result(role):
                 #review.Review.Rating
                 #review.Review.TextComment
 
-                print(test)
+                #print(test)
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
                 return "Error", 500
@@ -81,7 +84,6 @@ def result(role):
             # need Room_no and HotelID to access Room data
             # need review.py
             # must access ONLY Room Reviews
-            # Status: Incomplete
         if result == '5 Best Customers':
             try:
                 CIDArray = []
@@ -99,19 +101,37 @@ def result(role):
                         CIDArray.append(r.CID)
                         TotalAmountArray.append(r.TotalAmt)
                         i += 1
-                x = 0
-                print(CIDArray, TotalAmountArray)
+
+                #print(CIDArray, TotalAmountArray)
                 sortedList = sorted(TotalAmountArray, reverse=True)
                 i = 0  # sorted index
                 newCIDArray = []
                 #print(sortedList)
+
                 while i < len(CIDArray):
                     j = 0  # unsorted index
                     while sortedList[i] != TotalAmountArray[j] and j < len(CIDArray):
                         j += 1
                     newCIDArray.append(CIDArray[j])
+                    if len(newCIDArray) == 5:
+                        break
                     i += 1
-                print(newCIDArray, sortedList)
+                #print(newCIDArray, sortedList)
+
+                i = 0
+                name = []
+
+                while i < len(newCIDArray):
+                    for u in user.User.select().where(user.User.CID == newCIDArray[i]):
+                        name.append(u.Name)
+                    i += 1
+
+                output = []
+                for i in range(len(newCIDArray)):
+                    output.append([name[i], '{:.2f}'.format(sortedList[i])])
+
+                return render_template('stats/stat_list.html', logged_in=True, role=role, result=result,
+                                       output=output)
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
                 return "Error", 500
@@ -119,15 +139,14 @@ def result(role):
             # need CID of Customer to access User data
             # goes by costs
             # need TotalAmt : DONE
-            # Status: Incomplete
         if result == 'Highest Rated Breakfast':
             try:
                 for r in res.Reservation.select().where(res.Reservation.InDate >= dateB, res.Reservation.OutDate <= dateE):
                     temp = r.CID
                     test.append([r.InDate, r.OutDate, temp])
                     #print(temp)
-                    for s in review.review.select().where(review.review.CID == temp):
-                        print(s.ReviewID, s.Rating, s.TextComment)
+                    #for s in review.review.select().where(review.review.CID == temp):
+                        #print(s.ReviewID, s.Rating, s.TextComment)
                         # prints every single review from given CID
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
@@ -136,16 +155,15 @@ def result(role):
             # need bType and HotelID to access breakfast data
             # need review.py
             # must access ONLY Breakfast Reviews
-            # Status: Incomplete
         if result == 'Highest Rated Service':
             try:
                 for r in res.Reservation.select().where(res.Reservation.InDate >= dateB, res.Reservation.OutDate <= dateE):
                     temp = r.CID
                     test.append([r.InDate, r.OutDate, temp])
                     #print(temp)
-                    for s in review.review.select().where(review.review.CID == temp):
+                    #for s in review.review.select().where(review.review.CID == temp):
                         # Anthony, how the heck did you forget parentheses on IntegerFields?????
-                        print(s.ReviewID, s.Rating, s.TextComment)
+                        #print(s.ReviewID, s.Rating, s.TextComment)
 
 
                         # prints every single review from given CID
@@ -156,9 +174,8 @@ def result(role):
             # need sType and HotelID to access Service data
             # need review.py
             # must access ONLY Service Reviews
-            # Status: Incomplete
 
         # might need a try/except when fetching for dates
         # idea: for each result, have the result page include a list. this result page is called stat_list.html
         # question, how am i fetching review data???
-    return render_template('stats/stat_list.html', logged_in=True,role=role)
+    return render_template('stats/stat_list.html', logged_in=True, role=role, result=result)

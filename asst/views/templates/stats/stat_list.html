@@ -1,6 +1,15 @@
 {% extends "index.html" %}
 {% block body %}
-    <legend >Test</legend>
+    <script>
+        var result = {{result}}
+    </script>
+    <legend >{{result}}</legend>
 
+    <ol>
+        {% for o in output %}
+        <li>{{o.0}}: ${{o.1}}</li>
+        {% endfor %}
+
+    </ol>
 
 {% endblock %}
