@@ -70,6 +70,7 @@ def result(role):
                 return "Error", 500
             print(1)
             # need Room_no and HotelID to access Room data
+            # need review.py
         if result == '5 Best Customers':
             try:
                 print(" ")
@@ -78,6 +79,7 @@ def result(role):
                 return "Error", 500
             print(2)
             # need CID of Customer to access User data
+            # goes by costs
         if result == 'Highest Rated Breakfast':
             try:
                 print(" ")
@@ -86,6 +88,7 @@ def result(role):
                 return "Error", 500
             print(3)
             # need bType and HotelID to access breakfast data
+            # need review.py
         if result == 'Highest Rated Service':
             try:
                 print(" ")
@@ -94,6 +97,7 @@ def result(role):
                 return "Error", 500
             print(4)
             # need sType and HotelID to access Service data
+            # need review.py
 
         # might need a try/except when fetching for dates
         # idea: for each result, have the result page include a list. this result page is called stat_list.html
