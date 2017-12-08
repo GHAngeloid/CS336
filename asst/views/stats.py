@@ -60,6 +60,7 @@ def result(role):
         #print(dateB)
         #print(dateE)
 
+        # Highest Rated Room Type
         if result == 'Highest Rated Room Type':
             hotels = []
             try:
@@ -69,20 +70,36 @@ def result(role):
                         hotels.append(r.HotelID)
 
                 i = 0
+                Room_no_list = []  # list of all room #s
+                reviewcnt = []  # list that keeps track of sums of each room review
+                k = 0
                 while i < len(hotels):
                     for r in roomreview_evaluates.RoomReview_evaluates.select().where(
                     roomreview_evaluates.RoomReview_evaluates.HotelID == hotels[i]):
-                        print(r.ReviewID, r.Room_no)
+                        print("Review ID:", r.ReviewID, "Room_no:", r.Room_no)
+                        if(r.Room_no not in Room_no_list):
+                            Room_no_list.append(r.Room_no)
+                            reviewcnt.append(1)
+                            k += 1
+                        #else:
+
                     i += 1
+
+                for r in room.Room.select().where(
+                room.Room.HotelID == hotels[0] and room.Room.Room_no == Room_no_list[0]):
+                    print("Room Type:", r.Type)
+
 
                 #print(test)
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
                 return "Error", 500
-            print(1)
+
             # need Room_no and HotelID to access Room data
             # need review.py
             # must access ONLY Room Reviews
+
+        # 5 Best Customers
         if result == '5 Best Customers':
             try:
                 CIDArray = []
@@ -133,10 +150,12 @@ def result(role):
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
                 return "Error", 500
-            #print(2)
+
             # need CID of Customer to access User data
             # goes by costs
             # need TotalAmt : DONE
+
+        # Highest Rated Breakfast
         if result == 'Highest Rated Breakfast':
             hotels = []  # list of every hotel
             try:
@@ -146,19 +165,26 @@ def result(role):
                         hotels.append(r.HotelID)
 
                 i = 0
+                btypes = []  # list of all breakfast types per hotel
                 while i < len(hotels):  # iterates through each hotel
                     for b in breakfastreview_asseses.BreakfastReview_asseses.select().where(
                     breakfastreview_asseses.BreakfastReview_asseses.HotelID == hotels[i]):
-                        print(b.ReviewID, b.BType)
+                        print("Review ID:", b.ReviewID, "Breakfast Type:", b.BType)
+                        if b.BType not in btypes:
+                            btypes.append(b.BType)
                     i += 1
+
+
 
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
                 return "Error", 500
-            print(3)
+
             # need bType and HotelID to access breakfast data
             # need review.py
             # must access ONLY Breakfast Reviews
+
+        # Highest Rated Services
         if result == 'Highest Rated Service':
             hotels = []
             try:
@@ -168,16 +194,21 @@ def result(role):
                         hotels.append(r.HotelID)
 
                 i = 0
+                servicetypes = []  # list of all service types per hotel
                 while i < len(hotels):
                     for s in servicereview_rates.ServiceReview_rates.select().where(
                     servicereview_rates.ServiceReview_rates.HotelID == hotels[i]):
-                        print(s.ReviewID, s.sType)
+                        print("Review ID:", s.ReviewID, "Service Type:", s.sType)
+                        if s.sType not in servicetypes:
+                            servicetypes.append(s.sType)
                     i += 1
+
+
 
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
                 return "Error", 500
-            print(4)
+
             # need sType and HotelID to access Service data
             # need review.py
             # must access ONLY Service Reviews
