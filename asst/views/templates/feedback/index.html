@@ -4,6 +4,8 @@
     Please leave feedback only on what you have personally experienced. <br/>
     <div>
         </div>
+    Reservations List: <br/>
+<div><input type="submit" id = 'searchReservation' class = "btn btn-primary" value="Search"/></div>
     Review Type:
     <select name="res" id="res">
         <option value ="0"> NONE</option>
@@ -11,6 +13,7 @@
         <option value="2">Breakfast Review</option>
         <option value="3">Service Review</option>
     </select>
+
     <div style = 'display: none;' id = 'RoomRev' ><br/>
         Room Type : <br/>
         <select name="rtype" id="rtype">
@@ -32,7 +35,7 @@
         <textarea maxlength = "144" id =description name = 'description' cols = "50" rows = "6" ></textarea>
         <div id ="textarea_feedback"></div>
         <br/>
-        <form action = "/one" method = 'POST'><div><input type="submit" value="Submit"/></div></form>
+        <form action = "/feedback/success" method = 'POST'><div><input type="submit" value="Submit"/></div></form>
 
 
     </div>
@@ -57,7 +60,7 @@
         <textarea maxlength = "144" id =description2 name = 'description2' cols = "50" rows = "6" ></textarea>
         <div id ="textarea_feedback2"></div>
         <br/>
-        <form action = "/two" method = 'POST'><div><input type="submit" value="Submit"/></div></form>
+        <form action = "/feedback/success" method = 'POST'><div><input type="submit" value="Submit"/></div></form>
 
     </div>
     <div style ='display: none;' id = 'SRev'><br/>
@@ -80,9 +83,10 @@
         <textarea maxlength = "144" id =description3 name = 'description3' cols = "50" rows = "6" ></textarea>
         <div id ="textarea_feedback3"></div>
         <br/>
-        <form action = "/three" method = 'POST'><div><input type="submit" value="Submit"/></div></form>
+        <form action = "/feedback/success" method = 'POST'><div><input type="submit" value="Submit"/></div></form>
 
     </div>
+
     <script>
     $(document).ready(function(){
         $('#res').on('change',function(){
@@ -113,6 +117,7 @@
         });
     });
     </script>
+
     <script>
     $(document).ready(function() {
     var text_max = 144;
