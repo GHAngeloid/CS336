@@ -23,11 +23,12 @@ class Reservation(UserMixin, BaseModel):
     Room_no = IntegerField()
     HotelID = IntegerField()
     CNumber = CharField()
+    TotalAmt = FloatField()
     CID = IntegerField()
 
 
     @classmethod
-    def create_res(cls, res_date, out_date, in_date, room_no, hid, cnum, cid):
+    def create_res(cls, res_date, out_date, in_date, room_no, hid, cnum, cid, total):
         '''Creates a new user
 
         Args:
@@ -53,6 +54,7 @@ class Reservation(UserMixin, BaseModel):
                 Room_no = room_no,
                 HotelID = hid,
                 CNumber = cnum,
+                TotalAmt = total,
                 CID = cid)
         except IntegrityError:
             raise ValueError("User already exists")
