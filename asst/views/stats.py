@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, abort, flash
 from flask import request
 from asst.auth import require_role
-from asst.models import res, user, room, review
+from asst.models import res, user, room, review, breakfastreview_asseses
 from itertools import *
 import traceback, sys
 import math
@@ -51,7 +51,7 @@ def stats(role):
 def result(role):
 
     if request.method == 'GET':
-        return render_template('stats/stat_list.html', logged_in=True,role=role)
+        return render_template('stats/stat_list.html', logged_in=True, role=role)
     if request.method == 'POST':
         result = request.form['res']
         dateB = request.form['dateB']
@@ -59,13 +59,13 @@ def result(role):
         print(result)
         #print(dateB)
         #print(dateE)
-        test=[]
+
         if result == 'Highest Rated Room Type':
             try:
-                for r in res.Reservation.select().where(res.Reservation.InDate >= dateB and res.Reservation.OutDate <= dateE):
-                    temp = r.CID
-                    test.append([r.InDate, r.OutDate, temp])
-                    #print(temp)
+                for r in res.Reservation.select().where(res.Reservation.InDate >= dateB
+                and res.Reservation.OutDate <= dateE):
+
+                    print(r.CID)
                     #for s in review.review.select().where(review.review.CID == temp):
                         # Anthony, how the heck did you forget parentheses on IntegerFields?????
                         #print(s.ReviewID, s.Rating, s.TextComment)
@@ -89,9 +89,8 @@ def result(role):
                 CIDArray = []
                 TotalAmountArray = []
                 i = 0
-                for r in res.Reservation.select().where(res.Reservation.InDate >= dateB, res.Reservation.OutDate <= dateE):
-                    temp = r.CID
-                    test.append([r.InDate, r.OutDate, temp, r.TotalAmt])
+                for r in res.Reservation.select().where(res.Reservation.InDate >= dateB
+                and res.Reservation.OutDate <= dateE):
                     #print(temp, r.TotalAmt)
 
                     if r.CID in CIDArray:
@@ -135,15 +134,27 @@ def result(role):
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
                 return "Error", 500
-            print(2)
+            #print(2)
             # need CID of Customer to access User data
             # goes by costs
             # need TotalAmt : DONE
         if result == 'Highest Rated Breakfast':
+            hotels = []
             try:
-                for r in res.Reservation.select().where(res.Reservation.InDate >= dateB, res.Reservation.OutDate <= dateE):
-                    temp = r.CID
-                    test.append([r.InDate, r.OutDate, temp])
+                for r in res.Reservation.select().where(res.Reservation.InDate >= dateB
+                and res.Reservation.OutDate <= dateE):
+
+                    if r.HotelID not in hotels:
+                        hotels.append(r.HotelID)
+
+                i = 0
+                while i < len(hotels):  # iterates through each hotel
+                    for b in breakfastreview_asseses.BreakfastReview_asseses.select().where(
+                    breakfastreview_asseses.BreakfastReview_asseses.HotelID == hotels[i]):
+                        print(b.ReviewID, b.BType)
+                    i += 1
+
+
                     #print(temp)
                     #for s in review.review.select().where(review.review.CID == temp):
                         #print(s.ReviewID, s.Rating, s.TextComment)
@@ -157,10 +168,10 @@ def result(role):
             # must access ONLY Breakfast Reviews
         if result == 'Highest Rated Service':
             try:
-                for r in res.Reservation.select().where(res.Reservation.InDate >= dateB, res.Reservation.OutDate <= dateE):
-                    temp = r.CID
-                    test.append([r.InDate, r.OutDate, temp])
-                    #print(temp)
+                for r in res.Reservation.select().where(res.Reservation.InDate >= dateB
+                and res.Reservation.OutDate <= dateE):
+
+                    print(r.CID)
                     #for s in review.review.select().where(review.review.CID == temp):
                         # Anthony, how the heck did you forget parentheses on IntegerFields?????
                         #print(s.ReviewID, s.Rating, s.TextComment)
