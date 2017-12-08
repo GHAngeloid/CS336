@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, abort, flash
 from flask import request
 from asst.auth import require_role
 from itertools import *
-from asst.models import hotel, room, breakfast, service, card, res, discount
+from asst.models import hotel, room, breakfast, service, card, res, discount, includes
 from flask_table import Table, Col, ButtonCol
 import flask_login
 import datetime
@@ -48,10 +48,10 @@ def submit_order(role):
         checkin = parse(request.form['checkin'])
         checkout = parse(request.form['checkout'])
         services = request.form.getlist('services')
-        amer_break = request.form['b1']
-        beng_break = request.form['b2']
-        chin_break = request.form['b3']
-        mexi_break = request.form['b4']
+        amer_break = int(request.form['b1'])
+        beng_break = int(request.form['b2'])
+        chin_break = int(request.form['b3'])
+        mexi_break = int(request.form['b4'])
         card_name = request.form['cname']
         cc = request.form['cc']
         price = float(request.form['price'])
@@ -65,9 +65,19 @@ def submit_order(role):
         except:
             pass
         # make res next
-        res.Reservation.create_res(date_now, checkout, checkin, room_no, hotel_id, cc, cid, price)
+        reser = res.Reservation.create_res(date_now, checkout, checkin, room_no, hotel_id, cc, cid, price)
+        # make breakfast
+        if amer_break > 0:
+            includes.Inc_Breakfast.create_i_b("american", reser.InvoiceNo, hotel_id)
+        if beng_break > 0:
+            includes.Inc_Breakfast.create_i_b("bengali", reser.InvoiceNo, hotel_id)
+        if chin_break > 0:
+            includes.Inc_Breakfast.create_i_b("chinese", reser.InvoiceNo, hotel_id)
+        if mexi_break > 0:
+            includes.Inc_Breakfast.create_i_b("mexican", reser.InvoiceNo, hotel_id)
         # make services
-
+        for smile in services:
+            includes.Cont_Service.create_c_s(smile.split()[0], reser.InvoiceNo, hotel_id)
     except:
         traceback.print_exc(file=sys.stdout)
         flash("There was an error processing your request. Please try again", 'danger')

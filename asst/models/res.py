@@ -1,7 +1,7 @@
 '''The basic user model (For logins)
 The users will have roles i.e. chef, manager, host, waitress, etc..
 '''
-from peewee import CharField, IntegrityError, IntegerField, FloatField, CompositeKey, DateField
+from peewee import CharField, IntegrityError, IntegerField, FloatField, CompositeKey, DateField, PrimaryKeyField
 from asst.models import BaseModel
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash
@@ -16,7 +16,7 @@ class Reservation(UserMixin, BaseModel):
         - customer
         - manager
     '''
-    InvoiceNo = IntegerField(primary_key=True)
+    InvoiceNo = PrimaryKeyField()
     ResDate = DateField()
     OutDate = DateField()
     InDate = DateField()
@@ -47,7 +47,7 @@ class Reservation(UserMixin, BaseModel):
         '''
 
         try:
-            cls.create(
+            return cls.create(
                 ResDate = res_date,
                 OutDate = out_date,
                 InDate = in_date,
