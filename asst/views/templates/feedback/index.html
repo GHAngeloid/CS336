@@ -15,69 +15,73 @@
         Room Type : <br/>
         <select name="rtype" id="rtype">
             <option value ="rno"> NONE</option>
-            <option value="sin">Single</option>
-            <option value="dou">Double</option>
-            <option value="del">Deluxe</option>
-            <option value="sui">Suite</option>
+            <option value="single">Single</option>
+            <option value="double">Double</option>
+            <option value="deluxe">Deluxe</option>
+            <option value="suite">Suite</option>
         </select><br/>&nbsp;
         <br/>
         Rating: <br/>
-        <label class="radio-inline"><input type="radio" name="optradio">1/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio">2/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio">3/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio">4/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio">5/5</label>  &nbsp;
+        <label class="radio-inline"><input type="radio" name="optradio1" value="option1">1/5</label>  &nbsp;
+        <label class="radio-inline"><input type="radio" name="optradio1" value="option2">2/5</label>  &nbsp;
+        <label class="radio-inline"><input type="radio" name="optradio1" value="option3">3/5</label>  &nbsp;
+        <label class="radio-inline"><input type="radio" name="optradio1" value="option4">4/5</label>  &nbsp;
+        <label class="radio-inline"><input type="radio" name="optradio1" value="option5">5/5</label>  &nbsp;
         <br/><br/>
         Thoughts on the room? <br/>
         <textarea maxlength = "144" id =description name = 'description' cols = "50" rows = "6" ></textarea>
         <div id ="textarea_feedback"></div>
         <br/>
-        <div><input type="submit" value="Submit"/></div>
+        <form action = "/one" method = 'POST'><div><input type="submit" value="Submit"/></div></form>
+
+
     </div>
     <div style ='display: none;' id = 'BFRev'><br/>
         Breakfast Type : <br/>
         <select name="bftype" id="bftype">
             <option value ="bno"> NONE</option>
-            <option value="ben">Bengali</option>
-            <option value="ame">American</option>
-            <option value="chi">Chinese</option>
-            <option value="mex">Mexican</option>
+            <option value="Bengali">Bengali</option>
+            <option value="American">American</option>
+            <option value="Chinese">Chinese</option>
+            <option value="Mexican">Mexican</option>
         </select><br/>&nbsp;
         <br/>
-        Rating: <br/>
-        <label class="radio-inline"><input type="radio" name="optradio">1/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio">2/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio">3/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio">4/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio">5/5</label>  &nbsp;
+         Rating: <br/>
+        <label class="radio-inline"><input type="radio" name="optradio2" value="option1">1/5</label>  &nbsp;
+        <label class="radio-inline"><input type="radio" name="optradio2" value="option2">2/5</label>  &nbsp;
+        <label class="radio-inline"><input type="radio" name="optradio2" value="option3">3/5</label>  &nbsp;
+        <label class="radio-inline"><input type="radio" name="optradio2" value="option4">4/5</label>  &nbsp;
+        <label class="radio-inline"><input type="radio" name="optradio2" value="option5">5/5</label>  &nbsp;
         <br/><br/>
         Thoughts on the food? <br/>
         <textarea maxlength = "144" id =description2 name = 'description2' cols = "50" rows = "6" ></textarea>
         <div id ="textarea_feedback2"></div>
         <br/>
-        <div><input type="submit" value="Submit"/></div>
+        <form action = "/two" method = 'POST'><div><input type="submit" value="Submit"/></div></form>
+
     </div>
     <div style ='display: none;' id = 'SRev'><br/>
         Services Offered: <br/>
         <select name="stype" id="stype">
             <option value ="sno"> NONE</option>
-            <option value="cle">Cleaning</option>
-            <option value="lau">Laundry</option>
-            <option value="wfi">Wi-Fi</option>
+            <option value="cleaning">Cleaning</option>
+            <option value="laundry">Laundry</option>
+            <option value="wifi">Wi-Fi</option>
         </select><br/> &nbsp;
         <br/>
         Rating: <br/>
-        <label class="radio-inline"><input type="radio" name="optradio">1/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio">2/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio">3/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio">4/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio">5/5</label>  &nbsp;
+        <label class="radio-inline"><input type="radio" name="optradio3" value="option1">1/5</label>  &nbsp;
+        <label class="radio-inline"><input type="radio" name="optradio3" value="option2">2/5</label>  &nbsp;
+        <label class="radio-inline"><input type="radio" name="optradio3" value="option3">3/5</label>  &nbsp;
+        <label class="radio-inline"><input type="radio" name="optradio3" value="option4">4/5</label>  &nbsp;
+        <label class="radio-inline"><input type="radio" name="optradio3" value="option5">5/5</label>  &nbsp;
         <br/><br/>
         Thoughts on the service?<br/>
         <textarea maxlength = "144" id =description3 name = 'description3' cols = "50" rows = "6" ></textarea>
         <div id ="textarea_feedback3"></div>
         <br/>
-        <div><input type="submit" value="Submit"/></div>
+        <form action = "/three" method = 'POST'><div><input type="submit" value="Submit"/></div></form>
+
     </div>
     <script>
     $(document).ready(function(){

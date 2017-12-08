@@ -17,19 +17,19 @@ class review(UserMixin, BaseModel):
         - manager
     '''
     ReviewID = IntegerField(primary_key=True)
-    Rating = IntegerField
+    Rating = IntegerField()
     TextComment =  CharField()
-    CID = IntegerField
+    CID = IntegerField()
 
 
 
 
     @classmethod
-    def write_review(cls, reviewID, rating, text_comment, cid):
+    def create_review(cls, rating, text_comment, cid):
         '''writes a review
 
         Args:
-            reviewID : Identification of the review
+            reviewID : Identification of the review Primary Key so unnecessary
             rating : score the customer gives
             TextComment : textual description customer gives
             CID : customer identification
@@ -43,7 +43,6 @@ class review(UserMixin, BaseModel):
 
         try:
             cls.create(
-                ReviewID = reviewID,
                 Rating = rating,
                 TextComment = text_comment,
                 CID = cid)
