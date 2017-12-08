@@ -54,6 +54,7 @@ def submit_order(role):
         mexi_break = request.form['b4']
         card_name = request.form['cname']
         cc = request.form['cc']
+        price = float(request.form['price'])
         ctype = request.form['ctype']
         csv = request.form['csv']
         billaddr = request.form['baddr']
@@ -64,7 +65,7 @@ def submit_order(role):
         except:
             pass
         # make res next
-        res.Reservation.create_res(date_now, checkout, checkin, room_no, hotel_id, cc, cid)
+        res.Reservation.create_res(date_now, checkout, checkin, room_no, hotel_id, cc, cid, price)
         # make services
 
     except:
