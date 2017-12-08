@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, abort, flash
 from flask import request
 from asst.auth import require_role
-from asst.models import res, user, room, review, breakfastreview_asseses
+from asst.models import res, user, room, review, breakfastreview_asseses, servicereview_rates, roomreview_evaluates
 from itertools import *
 import traceback, sys
 import math
@@ -61,20 +61,19 @@ def result(role):
         #print(dateE)
 
         if result == 'Highest Rated Room Type':
+            hotels = []
             try:
                 for r in res.Reservation.select().where(res.Reservation.InDate >= dateB
                 and res.Reservation.OutDate <= dateE):
+                    if r.HotelID not in hotels:
+                        hotels.append(r.HotelID)
 
-                    print(r.CID)
-                    #for s in review.review.select().where(review.review.CID == temp):
-                        # Anthony, how the heck did you forget parentheses on IntegerFields?????
-                        #print(s.ReviewID, s.Rating, s.TextComment)
-                        # prints every single review from given CID
-
-                        #print(review.review.CID)
-                #review.Review.CID
-                #review.Review.Rating
-                #review.Review.TextComment
+                i = 0
+                while i < len(hotels):
+                    for r in roomreview_evaluates.RoomReview_evaluates.select().where(
+                    roomreview_evaluates.RoomReview_evaluates.HotelID == hotels[i]):
+                        print(r.ReviewID, r.Room_no)
+                    i += 1
 
                 #print(test)
             except Exception as e:
@@ -139,11 +138,10 @@ def result(role):
             # goes by costs
             # need TotalAmt : DONE
         if result == 'Highest Rated Breakfast':
-            hotels = []
+            hotels = []  # list of every hotel
             try:
                 for r in res.Reservation.select().where(res.Reservation.InDate >= dateB
                 and res.Reservation.OutDate <= dateE):
-
                     if r.HotelID not in hotels:
                         hotels.append(r.HotelID)
 
@@ -154,11 +152,6 @@ def result(role):
                         print(b.ReviewID, b.BType)
                     i += 1
 
-
-                    #print(temp)
-                    #for s in review.review.select().where(review.review.CID == temp):
-                        #print(s.ReviewID, s.Rating, s.TextComment)
-                        # prints every single review from given CID
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
                 return "Error", 500
@@ -167,17 +160,20 @@ def result(role):
             # need review.py
             # must access ONLY Breakfast Reviews
         if result == 'Highest Rated Service':
+            hotels = []
             try:
                 for r in res.Reservation.select().where(res.Reservation.InDate >= dateB
                 and res.Reservation.OutDate <= dateE):
+                    if r.HotelID not in hotels:
+                        hotels.append(r.HotelID)
 
-                    print(r.CID)
-                    #for s in review.review.select().where(review.review.CID == temp):
-                        # Anthony, how the heck did you forget parentheses on IntegerFields?????
-                        #print(s.ReviewID, s.Rating, s.TextComment)
+                i = 0
+                while i < len(hotels):
+                    for s in servicereview_rates.ServiceReview_rates.select().where(
+                    servicereview_rates.ServiceReview_rates.HotelID == hotels[i]):
+                        print(s.ReviewID, s.sType)
+                    i += 1
 
-
-                        # prints every single review from given CID
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
                 return "Error", 500
