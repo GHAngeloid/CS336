@@ -24,78 +24,82 @@ def feedback(role):
 def get_reserv(role):
     try:
         data = request.get_json()
+        RevType = data['RevType']
         reserv = []
-        bf = []
-        serv = []
+    #    bf = 'none'
+    #    serv = 'none'
+        rmtype = 'none'
         user = flask_login.current_user
         cid = user.CID
         for r in res.Reservation.select().where(res.Reservation.CID == cid):
-            print(str(r.InvoiceNo))
             invoic_no = r.InvoiceNo
-            for b in includes.Inc_Breakfast.select().where(includes.Inc_Breakfast.InvoiceNo == invoic_no):
-                bf.append(b)
-            for se in includes.Cont_Service.select().where(includes.Cont_Service.InvoiceNo == invoic_no):
-                serv.append(se)
-            rmtype = room.Room.Type.select().where(room.Room.Room_no == r.Room_no)
-            reserv.append([r.HotelID, rmtype, r.Room_no, serv, bf])
+           # for b in includes.Inc_Breakfast.select().where(includes.Inc_Breakfast.InvoiceNo == invoic_no):
+            #    bf.append(b)
+           # for se in includes.Cont_Service.select().where(includes.Cont_Service.InvoiceNo == invoic_no):
+           #     serv.append(se)
+            for rt in room.Room.select().where(room.Room.Room_no == r.Room_no):
+                rmtype = rt.Type
+            reserv.append([r.HotelID, rmtype, r.Room_no, r.InvoiceNo])
         return json.dumps(reserv)
     except Exception as e:
         traceback.print_exc(file=sys.stdout)
         return "Error", 500
 
     return render_template('feedback/index.html', logged_in=True,role=role)
-@page.route('/success',methods=['GET', 'POST'])
+@page.route('/data',methods=['GET', 'POST'])
 @require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
 def rreview(role):
     SCounter = 0
     try:
         user = flask_login.current_user
         cid = user.CID
-        revtype = request.args.get('res')
-        if revtype == '1':
-            roomtype = request.args.get('rtype')
+        data = request.get_json()
+        RevType = data['RevType']
+        Text = data['txtstring']
+        Rating = data['rating']
+        roomtype = data['rtype']
+        bftype = data['bftype']
+        stype = data['stype']
+        rev = []
+        print(RevType)
+        if RevType == '1':
             for q in res.Reservation.select().where(res.Reservation.CID == cid):
                 try:
                     inv_no = q.InvoiceNo
                     for rm in room.Room.select().where(room.Room.HotelID == q.HotelID, room.Room.Room_no == q.Room_no):
                         try:
                             if rm.Type == roomtype:
-                                rrate = request.args.get('optradio1')
-                                rdes = request.args.get('description')
-                                review.Review.create_review(rrate, rdes, cid, inv_no)
-                                SCounter = 1
+                                review.Review.create_review(Rating, Text, cid, inv_no)
+                                rev = ([Rating, Text, cid, inv_no])
+                                return json.dumps(rev)
                         except:
                             continue
                 except:
                     continue
-        elif revtype == '2':
-            bftype = request.args.get('bftype')
+        elif RevType == '2':
             for q in res.Reservation.select().where(res.Reservation.CID == cid):
                 try:
                     inv_no = q.InvoiceNo
                     for food in includes.Inc_Breakfast.select().where(includes.Inc_Breakfast.InvoiceNo == inv_no):
                         try:
                             if food.BType == bftype:
-                                bfrate = request.args.get('optradio2')
-                                bfdes = request.args.get('description2')
-                                review.Review.create_review(bfrate, bfdes, cid, inv_no)
-                                SCounter = 2
+                                review.Review.create_review(Rating, Text, cid, inv_no)
+                                rev = ([Rating, Text, cid, inv_no])
+                                return json.dumps(rev)
                         except:
                             continue
                 except:
                     continue
-        elif revtype == '3':
-            stype = request.args.get('stype')
+        elif RevType == '3':
             for q in res.Reservation.select().where(res.Reservation.CID == cid):
                 try:
                     inv_no = q.InvoiceNo
                     for ser in includes.Cont_Service.select().where(includes.Cont_Service.InvoiceNo == inv_no):
                         try:
                             if ser.SType == stype:
-                                srate = request.args.get('optradio3')
-                                sdes = request.args.get('description3')
-                                review.Review.create_review(srate, sdes, cid, inv_no)
-                                SCounter = 3
+                                review.Review.create_review(Rating, Text, cid, inv_no)
+                                rev = ([Rating, Text, cid, inv_no])
+                                return json.dumps(rev)
                         except:
                             continue
                 except:
@@ -109,3 +113,7 @@ def rreview(role):
     else:
         flash("error", 'danger')
         return render_template('feedback/index.html',logged_in=True, role=role)
+@page.route('/success',methods=['GET', 'POST'])
+@require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
+def submit(role):
+    return render_template('feedback/success.html', logged_in=True, role=role)

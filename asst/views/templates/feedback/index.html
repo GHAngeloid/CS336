@@ -6,23 +6,21 @@
     <div>
         Reservations List: <br/>
         <input type="submit" id = 'searchRes' class = "btn btn-primary" value="Search"/>
-        </div><br/>
-     <div id="resList" style="display: none;">
+    </div><br/>
+    <div id="resList" style="display: none;">
   <table class="table table-striped" id = 'table'>
     <thead>
       <tr>
         <th>Hotel ID</th>
         <th>Room Type</th>
         <th>Room No</th>
-        <th>Services</th>
-        <th>Breakfast(s) Ordered</th>
+        <th>Invoice No</th>
         <th>Review</th>
       </tr>
     </thead>
   </table>
-    </div>
-    <br/>
-<div>
+    </div><br/>
+<div style = 'display: none' id = 'rest_hide'><br/>
     Review Type:
     <select name="rest" id="rest">
         <option value ="0"> NONE</option>
@@ -30,8 +28,7 @@
         <option value="2">Breakfast Review</option>
         <option value="3">Service Review</option>
     </select>
-    </div>
-<br/>
+</div><br/>
     <div style = 'display: none;' id = 'RoomRev' ><br/>
         Room Type : <br/>
         <select name="rtype" id="rtype">
@@ -43,17 +40,20 @@
         </select><br/>&nbsp;
         <br/>
         Rating: <br/>
+        <div id = "rb">
         <label class="radio-inline"><input type="radio" name="optradio1" value="option1">1/5</label>  &nbsp;
         <label class="radio-inline"><input type="radio" name="optradio1" value="option2">2/5</label>  &nbsp;
         <label class="radio-inline"><input type="radio" name="optradio1" value="option3">3/5</label>  &nbsp;
         <label class="radio-inline"><input type="radio" name="optradio1" value="option4">4/5</label>  &nbsp;
         <label class="radio-inline"><input type="radio" name="optradio1" value="option5">5/5</label>  &nbsp;
+        </div>
         <br/><br/>
         Thoughts on the room? <br/>
         <textarea maxlength = "144" id =description name = 'description' cols = "50" rows = "6" ></textarea>
         <div id ="textarea_feedback"></div>
         <br/>
-        <form action = "/feedback/success" method = 'POST'><div><input type="submit" value="Submit"/></div></form>
+        <input type="submit" id = 'valid1' class = "btn btn-primary" value="validate"/>
+        <form action = "/feedback/success" method = 'POST'><div style="display: none" id = sub1><input type="submit" value="Submit"/></div></form>
 
 
     </div>
@@ -68,17 +68,20 @@
         </select><br/>&nbsp;
         <br/>
          Rating: <br/>
+        <div id = "bb">
         <label class="radio-inline"><input type="radio" name="optradio2" value="option1">1/5</label>  &nbsp;
         <label class="radio-inline"><input type="radio" name="optradio2" value="option2">2/5</label>  &nbsp;
         <label class="radio-inline"><input type="radio" name="optradio2" value="option3">3/5</label>  &nbsp;
         <label class="radio-inline"><input type="radio" name="optradio2" value="option4">4/5</label>  &nbsp;
         <label class="radio-inline"><input type="radio" name="optradio2" value="option5">5/5</label>  &nbsp;
+        </div>
         <br/><br/>
         Thoughts on the food? <br/>
         <textarea maxlength = "144" id =description2 name = 'description2' cols = "50" rows = "6" ></textarea>
         <div id ="textarea_feedback2"></div>
         <br/>
-        <form action = "/feedback/success" method = 'POST'><div><input type="submit" value="Submit"/></div></form>
+        <input type="submit" id = 'valid2' class = "btn btn-primary" value="validate"/>
+        <form action = "/feedback/success" method = 'POST'><div style="display: none" id = sub2><input type="submit" value="Submit"/></div></form>
 
     </div>
     <div style ='display: none;' id = 'SRev'><br/>
@@ -91,32 +94,77 @@
         </select><br/> &nbsp;
         <br/>
         Rating: <br/>
+        <div id = "sb">
         <label class="radio-inline"><input type="radio" name="optradio3" value="option1">1/5</label>  &nbsp;
         <label class="radio-inline"><input type="radio" name="optradio3" value="option2">2/5</label>  &nbsp;
         <label class="radio-inline"><input type="radio" name="optradio3" value="option3">3/5</label>  &nbsp;
         <label class="radio-inline"><input type="radio" name="optradio3" value="option4">4/5</label>  &nbsp;
         <label class="radio-inline"><input type="radio" name="optradio3" value="option5">5/5</label>  &nbsp;
+        </div>
         <br/><br/>
         Thoughts on the service?<br/>
         <textarea maxlength = "144" id =description3 name = 'description3' cols = "50" rows = "6" ></textarea>
         <div id ="textarea_feedback3"></div>
         <br/>
-        <form action = "/feedback/success" method = 'POST'><div><input type="submit" value="Submit"/></div></form>
+        <input type="submit" id = 'valid3' class = "btn btn-primary" value="validate"/>
+        <form action = "/feedback/success" method = 'POST'><div style="display: none" id = sub3><input type="submit" value="Submit"/></div></form>
+
 
     </div>
 </div>
-    <script>
+<script>
     $( "#searchRes" ).click(function() {
     $("#resList").css('display', 'inline');
     loadReserv()
   });
-  </script>
-<script>
+    $( "#valid1" ).click(function() {
+        $("#sub1").show();
+        rating = $('#rb input:radio:checked').val();
+        txtstring = document.getElementById('description').value
+        rtype = $('#rtype').val()
+        bftype = $('#bftype').val()
+        stype = $('#stype').val()
+        senddata()
+  });
+      $( "#valid2" ).click(function() {
+        $("#sub2").show();
+        rtype = $('#rtype').val()
+        bftype = $('#bftype').val()
+        stype = $('#stype').val()
+        rating = $('#bb input:radio:checked').val();
+        txtstring = document.getElementById('description2').value
+        senddata()
+  });
+      $( "#valid3" ).click(function() {
+        $("#sub3").show();
+        rtype = $('#rtype').val()
+        bftype = $('#bftype').val()
+        stype = $('#stype').val()
+        rating = $('#sb input:radio:checked').val();
+        txtstring = document.getElementById('description3').value
+        senddata()
+  });
+
+  function senddata(){
+    RevType= $('#rest').val()
+  $.ajax({
+    url: "/feedback/data",
+    type: "POST",
+    data: JSON.stringify({RevType: RevType, txtstring: txtstring, rating: rating, rtype: rtype, bftype: bftype, stype: stype}),
+    contentType: "application/json; charset=utf-8",
+    success: function(data) { result = JSON.parse(data);
+        console.log(result)
+    },
+    error: function(xhr, textStatus, errorThrown){
+    }
+});
+  }
      function loadReserv(){
+    RevType= $('#rest').val()
     $.ajax({
     url: "/feedback/load_Res",
     type: "POST",
-    data: JSON.stringify(),
+    data: JSON.stringify({RevType: RevType}),
     contentType: "application/json; charset=utf-8",
     success: function(data) { result = JSON.parse(data);
         console.log(result)
@@ -125,8 +173,9 @@
     error: function(xhr, textStatus, errorThrown){
     }
 });
-</script>
-<script>
+}
+
+
     $(document).ready(function(){
         $('#rest').on('change',function(){
             if( this.value == '1')
@@ -155,8 +204,7 @@
             }
         });
     });
-</script>
-<script>
+
     $(document).ready(function() {
     var text_max = 144;
     $('#textarea_feedback').html(text_max + ' characters remaining');
@@ -168,8 +216,7 @@
         $('#textarea_feedback').html(text_remaining + ' characters remaining');
         });
     });
-</script>
-<script>
+
     $(document).ready(function() {
     var text_max = 144;
     $('#textarea_feedback2').html(text_max + ' characters remaining');
@@ -181,8 +228,7 @@
         $('#textarea_feedback2').html(text_remaining + ' characters remaining');
         });
     });
-</script>
-<script>
+
     $(document).ready(function() {
     var text_max = 144;
     $('#textarea_feedback3').html(text_max + ' characters remaining');
@@ -194,8 +240,11 @@
         $('#textarea_feedback3').html(text_remaining + ' characters remaining');
         });
     });
-   </script>
-<script>
+ function findReview(id){
+  $("#rest_hide").show();
+
+  }
+
    function setReserv(values){
     $("#table tbody tr").remove();
   var mixed = document.getElementById("table");
@@ -212,16 +261,24 @@
        td.appendChild(txt);
        tr.appendChild(td);
      }
-
+     var td = document.createElement("td")
+     var txt = document.createElement("BUTTON");
+     txt.classList.add('btn');
+     txt.classList.add('btn-primary')
+     txt.innerText = "Review"
+     txt.setAttribute( "onClick", "findReview(" + values[i][0] + ")" );
+     td.appendChild(txt)
+     tr.appendChild(td)
      // append row to table update
      // IE7 requires append row to tbody, append tbody to table
      // append row to table update
      // IE7 requires append row to tbody, append tbody to table
      tbody.appendChild(tr);
      mixed.appendChild(tbody);
-    }
-    };
-    </script>
+  }
+ }
+
+</script>
 
 
 {% endblock %}
