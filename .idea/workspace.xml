@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9600918-c4b0-47df-8969-fed3b43b746f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/asst/views/feedback.py" afterPath="$PROJECT_DIR$/asst/views/feedback.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/asst/views/templates/feedback/index.html" afterPath="$PROJECT_DIR$/asst/views/templates/feedback/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/asst/views/templates/feedback/make_rev.html" afterPath="$PROJECT_DIR$/asst/views/templates/feedback/make_rev.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,21 +24,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="order_page.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/asst/views/templates/reservation/order_page.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
-              <caret line="182" column="19" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="188" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="reservation.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/asst/views/reservation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="419">
-              <caret line="135" column="45" lean-forward="false" selection-start-line="135" selection-start-column="45" selection-end-line="135" selection-end-column="45" />
+            <state relative-caret-position="159">
+              <caret line="156" column="19" lean-forward="false" selection-start-line="156" selection-start-column="15" selection-end-line="156" selection-end-column="19" />
               <folding>
                 <element signature="e#0#58#0" expanded="true" />
               </folding>
@@ -47,13 +36,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="feedback.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="feedback.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/asst/views/feedback.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-903">
-              <caret line="44" column="23" lean-forward="false" selection-start-line="44" selection-start-column="23" selection-end-line="44" selection-end-column="23" />
+            <state relative-caret-position="144">
+              <caret line="79" column="8" lean-forward="false" selection-start-line="79" selection-start-column="8" selection-end-line="79" selection-end-column="8" />
               <folding>
                 <element signature="e#0#58#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="make_rev.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/asst/views/templates/feedback/make_rev.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1752">
+              <caret line="183" column="26" lean-forward="false" selection-start-line="183" selection-start-column="26" selection-end-line="183" selection-end-column="26" />
+              <folding>
+                <element signature="e#4390#4396#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -62,8 +63,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/asst/views/templates/feedback/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="42">
-              <caret line="59" column="25" lean-forward="false" selection-start-line="59" selection-start-column="25" selection-end-line="59" selection-end-column="25" />
+            <state relative-caret-position="-582">
+              <caret line="10" column="50" lean-forward="true" selection-start-line="10" selection-start-column="50" selection-end-line="10" selection-end-column="50" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#form#0;n#div#0;n#!!top" expanded="true" />
               </folding>
@@ -71,53 +72,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="make_rev.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/asst/views/templates/feedback/make_rev.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1134">
-              <caret line="3" column="33" lean-forward="false" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="success.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/asst/views/templates/feedback/success.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="5" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="res.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/asst/models/res.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="23" column="27" lean-forward="true" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="27" />
-              <folding>
-                <element signature="e#109#221#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="room_list.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/asst/views/templates/reservation/room_list.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="42">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/asst/views/templates/reservation/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="44" column="4" lean-forward="true" selection-start-line="44" selection-start-column="4" selection-end-line="44" selection-end-column="4" />
+            <state relative-caret-position="159">
+              <caret line="103" column="20" lean-forward="false" selection-start-line="103" selection-start-column="16" selection-end-line="103" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -135,8 +94,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>role</find>
-      <find>current_user</find>
       <find>post</find>
       <find>route</find>
       <find>login</find>
@@ -152,7 +109,6 @@
       <find>reviewID</find>
       <find>button</find>
       <find>col</find>
-      <find>form</find>
       <find>hotellist</find>
       <find>room</find>
       <find>dict</find>
@@ -164,6 +120,10 @@
       <find>loadReserv</find>
       <find>b1</find>
       <find>hotelid</find>
+      <find>form</find>
+      <find>error</find>
+      <find>json</find>
+      <find>print</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -196,7 +156,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="316" />
+    <option name="x" value="407" />
     <option name="y" value="58" />
     <option name="width" value="1544" />
     <option name="height" value="992" />
@@ -392,7 +352,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="316" y="58" width="1544" height="992" extended-state="0" />
+    <frame x="407" y="58" width="1544" height="992" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22608125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -729,30 +689,43 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2700">
           <caret line="2" column="5" lean-forward="false" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
-          <folding />
+          <folding>
+            <element signature="e#2529#2535#0" expanded="false" />
+            <element signature="e#2636#2642#0" expanded="false" />
+            <element signature="e#2743#2749#0" expanded="false" />
+            <element signature="e#3978#3984#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/asst/views/templates/reservation/order_page.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="182" column="19" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="188" selection-end-column="14" />
+        <state relative-caret-position="93">
+          <caret line="162" column="0" lean-forward="true" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/asst/models/room.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="933">
+          <caret line="57" column="33" lean-forward="false" selection-start-line="57" selection-start-column="33" selection-end-line="57" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/asst/views/templates/reservation/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="44" column="4" lean-forward="true" selection-start-line="44" selection-start-column="4" selection-end-line="44" selection-end-column="4" />
+        <state relative-caret-position="159">
+          <caret line="103" column="20" lean-forward="false" selection-start-line="103" selection-start-column="16" selection-end-line="103" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/asst/views/templates/feedback/success.html">
+    <entry file="file://$PROJECT_DIR$/asst/views/templates/reservation/room_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="5" selection-end-column="14" />
+        <state relative-caret-position="42">
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="11" />
           <folding />
         </state>
       </provider>
@@ -767,34 +740,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/asst/models/room.py">
+    <entry file="file://$PROJECT_DIR$/asst/views/templates/feedback/success.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="933">
-          <caret line="57" column="33" lean-forward="false" selection-start-line="57" selection-start-column="33" selection-end-line="57" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/asst/views/templates/reservation/room_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/asst/views/templates/feedback/make_rev.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1134">
-          <caret line="3" column="33" lean-forward="false" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
+        <state relative-caret-position="84">
+          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="5" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/asst/views/reservation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="135" column="45" lean-forward="false" selection-start-line="135" selection-start-column="45" selection-end-line="135" selection-end-column="45" />
+        <state relative-caret-position="159">
+          <caret line="156" column="19" lean-forward="false" selection-start-line="156" selection-start-column="15" selection-end-line="156" selection-end-column="19" />
           <folding>
             <element signature="e#0#58#0" expanded="true" />
           </folding>
@@ -803,8 +760,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/asst/views/templates/feedback/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="59" column="25" lean-forward="false" selection-start-line="59" selection-start-column="25" selection-end-line="59" selection-end-column="25" />
+        <state relative-caret-position="-582">
+          <caret line="10" column="50" lean-forward="true" selection-start-line="10" selection-start-column="50" selection-end-line="10" selection-end-column="50" />
           <folding>
             <element signature="n#style#0;n#div#0;n#form#0;n#div#0;n#!!top" expanded="true" />
           </folding>
@@ -813,10 +770,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/asst/views/feedback.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-903">
-          <caret line="44" column="23" lean-forward="false" selection-start-line="44" selection-start-column="23" selection-end-line="44" selection-end-column="23" />
+        <state relative-caret-position="144">
+          <caret line="79" column="8" lean-forward="false" selection-start-line="79" selection-start-column="8" selection-end-line="79" selection-end-column="8" />
           <folding>
             <element signature="e#0#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/asst/views/templates/feedback/make_rev.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1752">
+          <caret line="183" column="26" lean-forward="false" selection-start-line="183" selection-start-column="26" selection-end-line="183" selection-end-column="26" />
+          <folding>
+            <element signature="e#4390#4396#0" expanded="true" />
           </folding>
         </state>
       </provider>
