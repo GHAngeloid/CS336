@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, abort, flash
 from flask import request
 from asst.auth import require_role
 from itertools import *
-from asst.models import hotel, room, breakfast, service, card, res, discount
+from asst.models import hotel, room, breakfast, service, card, res, discount, includes
 from flask_table import Table, Col, ButtonCol
 import flask_login
 import datetime
@@ -48,12 +48,13 @@ def submit_order(role):
         checkin = parse(request.form['checkin'])
         checkout = parse(request.form['checkout'])
         services = request.form.getlist('services')
-        amer_break = request.form['b1']
-        beng_break = request.form['b2']
-        chin_break = request.form['b3']
-        mexi_break = request.form['b4']
+        amer_break = int(request.form['b1'])
+        beng_break = int(request.form['b2'])
+        chin_break = int(request.form['b3'])
+        mexi_break = int(request.form['b4'])
         card_name = request.form['cname']
         cc = request.form['cc']
+        price = float(request.form['price'])
         ctype = request.form['ctype']
         csv = request.form['csv']
         billaddr = request.form['baddr']
@@ -64,13 +65,23 @@ def submit_order(role):
         except:
             pass
         # make res next
-        res.Reservation.create_res(date_now, checkout, checkin, room_no, hotel_id, cc, cid)
+        reser = res.Reservation.create_res(date_now, checkout, checkin, room_no, hotel_id, cc, cid, price)
+        # make breakfast
+        if amer_break > 0:
+            includes.Inc_Breakfast.create_i_b("american", reser.InvoiceNo, hotel_id)
+        if beng_break > 0:
+            includes.Inc_Breakfast.create_i_b("bengali", reser.InvoiceNo, hotel_id)
+        if chin_break > 0:
+            includes.Inc_Breakfast.create_i_b("chinese", reser.InvoiceNo, hotel_id)
+        if mexi_break > 0:
+            includes.Inc_Breakfast.create_i_b("mexican", reser.InvoiceNo, hotel_id)
         # make services
-
+        for smile in services:
+            includes.Cont_Service.create_c_s(smile.split()[0], reser.InvoiceNo, hotel_id)
     except:
         traceback.print_exc(file=sys.stdout)
         flash("There was an error processing your request. Please try again", 'danger')
-        return render_template('reservation/index.html', logged_in=True,role=role)  
+        return render_template('reservation/index.html', logged_in=True,role=role)
     return render_template('reservation/thanks.html', logged_in=True,role=role)
 
 @page.route("/order",methods=['GET', 'POST'])
@@ -99,7 +110,7 @@ def order(role):
             room_s = dict(hotel_id = r.HotelID, room_no = r.Room_no, max_guests = r.Capacity, description = r.Description, price = r.Price, r_type = r.Type)
         except:
             continue
-    return render_template('reservation/order_page.html', logged_in=True,role=role, break_off = break_off, price = price, room = room_s, serv_off = serv_off, checkin = checkin, checkout = checkout, prev_inf = [hotel_id, room_no]) 
+    return render_template('reservation/order_page.html', logged_in=True,role=role, break_off = break_off, price = price, room = room_s, serv_off = serv_off, checkin = checkin, checkout = checkout, prev_inf = [hotel_id, room_no])
 
 
 @page.route("/make_res",methods=['GET'])
@@ -118,7 +129,7 @@ def make_res(role):
         try:
             dc = 0
             price = str(r.Price)
-            for sav in  discount.Discount.select().where(discount.Discount.HotelID == hotel_id,discount.Discount.Room_no == r.Room_no, 
+            for sav in  discount.Discount.select().where(discount.Discount.HotelID == hotel_id,discount.Discount.Room_no == r.Room_no,
                discount.Discount.SDate <= checkin, discount.Discount.EDate >= checkout):
                 dc = sav.Discount
                 price = '\u0336'.join(price) + '\u0336' + " " + str(round((1- dc) * r.Price,2))
@@ -159,8 +170,5 @@ def search_reg(role):
             state = request.form['state']
         except:
             flash("Please enter a country and state to search", 'danger')
-            return render_template('reservation/index.html', logged_in=True,role=role)  
+            return render_template('reservation/index.html', logged_in=True,role=role)
     return render_template('reservation/index.html', logged_in=True,role=role)
-
-
-

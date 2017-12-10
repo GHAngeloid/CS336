@@ -1,12 +1,12 @@
 '''The basic user model (For logins)
 The users will have roles i.e. chef, manager, host, waitress, etc..
 '''
-from peewee import CharField, IntegrityError, IntegerField, FloatField, CompositeKey
+from peewee import CharField, IntegrityError, IntegerField, FloatField, CompositeKey, PrimaryKeyField
 from asst.models import BaseModel
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash
 
-class review(UserMixin, BaseModel):
+class Review(UserMixin, BaseModel):
     class Meta:
         db_table = 'writes_review'
     '''A User model for who will be using the software. Users have different levels of access with different roles
@@ -20,12 +20,13 @@ class review(UserMixin, BaseModel):
     Rating = IntegerField()
     TextComment =  CharField()
     CID = IntegerField()
+    InvoiceNo = IntegerField()
 
 
 
 
     @classmethod
-    def create_review(cls, rating, text_comment, cid):
+    def create_review(cls, rating, text_comment, cid, inv_no):
         '''writes a review
 
         Args:
@@ -42,9 +43,10 @@ class review(UserMixin, BaseModel):
         '''
 
         try:
-            cls.create(
+                cls.create(
                 Rating = rating,
                 TextComment = text_comment,
-                CID = cid)
+                CID = cid,
+                InvoiceNo = inv_no)
         except IntegrityError:
             raise ValueError("Review already exists")

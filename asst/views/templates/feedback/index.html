@@ -2,18 +2,36 @@
 {% block body %}
     <h2>Feedback</h2>
     Please leave feedback only on what you have personally experienced. <br/>
+<div>
     <div>
-        </div>
-    Reservations List: <br/>
-<div><input type="submit" id = 'searchReservation' class = "btn btn-primary" value="Search"/></div>
+        Reservations List: <br/>
+        <input type="submit" id = 'searchRes' class = "btn btn-primary" value="Search"/>
+        </div><br/>
+     <div id="resList" style="display: none;">
+  <table class="table table-striped" id = 'table'>
+    <thead>
+      <tr>
+        <th>Hotel ID</th>
+        <th>Room Type</th>
+        <th>Room No</th>
+        <th>Services</th>
+        <th>Breakfast(s) Ordered</th>
+        <th>Review</th>
+      </tr>
+    </thead>
+  </table>
+    </div>
+    <br/>
+<div>
     Review Type:
-    <select name="res" id="res">
+    <select name="rest" id="rest">
         <option value ="0"> NONE</option>
         <option value="1">Room Review</option>
         <option value="2">Breakfast Review</option>
         <option value="3">Service Review</option>
     </select>
-
+    </div>
+<br/>
     <div style = 'display: none;' id = 'RoomRev' ><br/>
         Room Type : <br/>
         <select name="rtype" id="rtype">
@@ -86,10 +104,31 @@
         <form action = "/feedback/success" method = 'POST'><div><input type="submit" value="Submit"/></div></form>
 
     </div>
-
+</div>
     <script>
+    $( "#searchRes" ).click(function() {
+    $("#resList").css('display', 'inline');
+    loadReserv()
+  });
+  </script>
+<script>
+     function loadReserv(){
+    $.ajax({
+    url: "/feedback/load_Res",
+    type: "POST",
+    data: JSON.stringify(),
+    contentType: "application/json; charset=utf-8",
+    success: function(data) { result = JSON.parse(data);
+        console.log(result)
+        setReserv(result)
+    },
+    error: function(xhr, textStatus, errorThrown){
+    }
+});
+</script>
+<script>
     $(document).ready(function(){
-        $('#res').on('change',function(){
+        $('#rest').on('change',function(){
             if( this.value == '1')
             {
                 $("#RoomRev").show();
@@ -116,9 +155,8 @@
             }
         });
     });
-    </script>
-
-    <script>
+</script>
+<script>
     $(document).ready(function() {
     var text_max = 144;
     $('#textarea_feedback').html(text_max + ' characters remaining');
@@ -130,8 +168,8 @@
         $('#textarea_feedback').html(text_remaining + ' characters remaining');
         });
     });
-    </script>
-    <script>
+</script>
+<script>
     $(document).ready(function() {
     var text_max = 144;
     $('#textarea_feedback2').html(text_max + ' characters remaining');
@@ -143,8 +181,8 @@
         $('#textarea_feedback2').html(text_remaining + ' characters remaining');
         });
     });
-    </script>
-    <script>
+</script>
+<script>
     $(document).ready(function() {
     var text_max = 144;
     $('#textarea_feedback3').html(text_max + ' characters remaining');
@@ -156,6 +194,33 @@
         $('#textarea_feedback3').html(text_remaining + ' characters remaining');
         });
     });
+   </script>
+<script>
+   function setReserv(values){
+    $("#table tbody tr").remove();
+  var mixed = document.getElementById("table");
+  var tbody = document.createElement("tbody");
+  // for each outer array row
+  for (var i = 0 ; i < values.length; i++) {
+     var tr = document.createElement("tr");
+
+     // for each inner array cell
+     // create td then text, append
+     for (var j = 0; j < values[i].length; j++) {
+       var td = document.createElement("td");
+       var txt = document.createTextNode(values[i][j]);
+       td.appendChild(txt);
+       tr.appendChild(td);
+     }
+
+     // append row to table update
+     // IE7 requires append row to tbody, append tbody to table
+     // append row to table update
+     // IE7 requires append row to tbody, append tbody to table
+     tbody.appendChild(tr);
+     mixed.appendChild(tbody);
+    }
+    };
     </script>
 
 
