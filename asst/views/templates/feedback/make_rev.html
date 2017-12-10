@@ -44,13 +44,16 @@
           </form>
     </div>
     <div style ='display: none;' id = 'BFRev'><br/>
+            <legend >Selected Breakfast(s)</legend>
+            {{table3}}
+        <br/>
         Breakfast Type : <br/>
         <select name="bftype" id="bftype">
             <option value ="bno"> NONE</option>
-            <option value="Bengali">bengali</option>
-            <option value="American">american</option>
-            <option value="Chinese">chinese</option>
-            <option value="Mexican">mexican</option>
+            <option value="bengali">bengali</option>
+            <option value="american">american</option>
+            <option value="chinese">chinese</option>
+            <option value="mexican">mexican</option>
         </select><br/>&nbsp;
         <br/>
          Rating: <br/>
@@ -72,6 +75,9 @@
         </form>
     </div>
     <div style ='display: none;' id = 'SRev'><br/>
+            <legend >Selected Service(s)</legend>
+            {{table2}}
+        <br/>
         Services Offered: <br/>
         <select name="stype" id="stype">
             <option value ="sno"> NONE</option>

@@ -34,6 +34,23 @@ class ItemTable(Table):
     room_no = Col('Room Number')
     hotel_id = Col('Hotel ID')
 
+class ItemTable2(Table):
+    '''
+    This is a itemTable class that generates text/html automatically to create a table for created reservations
+    '''
+    html_attrs = {'class': 'table table-striped'}
+    serv = Col('Service Ordered')
+    inv = Col('Invoice No')
+    hotel_id = Col('Hotel ID')
+
+class ItemTable3(Table):
+    '''
+    This is a itemTable class that generates text/html automatically to create a table for created reservations
+    '''
+    html_attrs = {'class': 'table table-striped'}
+    inv = Col('Invoice No')
+    brktype = Col('Breakfast Type')
+    hotel_id = Col('Hotel ID')
 
 @page.route('/', methods=['GET'])
 @require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
@@ -44,6 +61,8 @@ def feedback(role):
 @require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
 def pick_res(role):
     reserv = []
+    reserv2 = []
+    reserv3 = []
     hotel_id = -1
     global inv_no
     try:
@@ -62,8 +81,22 @@ def pick_res(role):
         except:
             traceback.print_exc(file=sys.stdout)
             continue
+    for s in includes.Cont_Service.select().where(includes.Cont_Service.InvoiceNo == inv_no):
+        try:
+            reserv2.append(dict(serv = s.sType, inv = s.InvoiceNo, hotel_id = s.HotelID ))
+        except:
+            traceback.print_exc(file=sys.stdout)
+            continue
+    for bf in includes.Inc_Breakfast.select().where(includes.Inc_Breakfast.InvoiceNo == inv_no):
+        try:
+            reserv3.append(dict(inv = bf.InvoiceNo, brktype = bf.BType, hotel_id = bf.HotelID))
+        except:
+            traceback.print_exc(file=sys.stdout)
+            continue
     table = ItemTable(reserv)
-    return render_template('feedback/make_rev.html', logged_in=True,role=role, table = table)
+    table2 = ItemTable2(reserv2)
+    table3 = ItemTable3(reserv3)
+    return render_template('feedback/make_rev.html', logged_in=True,role=role, table = table, table2 = table2, table3 = table3)
 
 @page.route("/rating", methods=['POST'])
 @require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
@@ -151,15 +184,15 @@ def rreview(role):
             cid = user.CID
             if ReviewType == 1:
                 for q in res.Reservation.select().where(res.Reservation.CID == cid, res.Reservation.InvoiceNo == inv_no):
-                    print(str(q))
+                    print("Reservation: " + str(q))
                     try:
                         for rm in room.Room.select().where(room.Room.HotelID == q.HotelID, room.Room.Room_no == q.Room_no):
-                            print(str(rm))
-                            print(str(rm.Type))
+                            print("Room Info: " + str(rm))
+                            print("Room Type: " + str(rm.Type))
                             try:
                                 if rm.Type == rtype:
                                     Text = request.form['description']
-                                    print(str(Text))
+                                    print("Room Description: " + str(Text))
                                     SCounter += 1
                                     review.Review.create_review(rrate, Text, cid, inv_no)
                             except:
@@ -170,11 +203,15 @@ def rreview(role):
                         return render_template('feedback/index.html', logged_in=True, role=role)
             elif ReviewType == 2:
                 for q in res.Reservation.select().where(res.Reservation.CID == cid, res.Reservation.InvoiceNo == inv_no):
+                    print("Reservation: " + str(q))
                     try:
                         for food in includes.Inc_Breakfast.select().where(includes.Inc_Breakfast.InvoiceNo == inv_no):
+                            print("Breakfast Info: " + str(food))
+                            print("Breakfast Type: " + str(food.BType))
                             try:
                                 if food.BType == bftype:
                                     Text = request.form['description2']
+                                    print("Food Description: " + str(Text))
                                     SCounter += 1
                                     review.Review.create_review(bfrate, Text, cid, inv_no)
                             except:
@@ -185,11 +222,15 @@ def rreview(role):
                         return render_template('feedback/index.html', logged_in=True, role=role)
             elif ReviewType == 3:
                 for q in res.Reservation.select().where(res.Reservation.CID == cid, res.Reservation.InvoiceNo == inv_no):
+                    print("Reservation: " + str(q))
                     try:
                         for ser in includes.Cont_Service.select().where(includes.Cont_Service.InvoiceNo == inv_no):
+                            print("Service Info: " + str(ser))
+                            print("Service Type: " + str(ser.sType))
                             try:
-                                if ser.SType == stype:
+                                if ser.sType == stype:
                                     Text = request.form['description3']
+                                    print("Service Description: " + str(Text))
                                     SCounter += 1
                                     review.Review.create_review(srate, Text, cid, inv_no)
                             except:
@@ -205,6 +246,6 @@ def rreview(role):
         if SCounter > 0:
             return render_template('feedback/success.html', logged_in=True, role=role)
         else:
-            flash("error, Please try Again", 'danger')
+            flash("error, please review only for things that were actually ordered.", 'danger')
             return render_template('feedback/index.html', logged_in=True, role=role)
 
