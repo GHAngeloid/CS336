@@ -20,145 +20,25 @@
     </thead>
   </table>
     </div><br/>
-<div style = 'display: none' id = 'rest_hide'><br/>
-    Review Type:
-    <select name="rest" id="rest">
-        <option value ="0"> NONE</option>
-        <option value="1">Room Review</option>
-        <option value="2">Breakfast Review</option>
-        <option value="3">Service Review</option>
-    </select>
-</div><br/>
-    <div style = 'display: none;' id = 'RoomRev' ><br/>
-        Room Type : <br/>
-        <select name="rtype" id="rtype">
-            <option value ="rno"> NONE</option>
-            <option value="single">Single</option>
-            <option value="double">Double</option>
-            <option value="deluxe">Deluxe</option>
-            <option value="suite">Suite</option>
-        </select><br/>&nbsp;
-        <br/>
-        Rating: <br/>
-        <div id = "rb">
-        <label class="radio-inline"><input type="radio" name="optradio1" value="option1">1/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio1" value="option2">2/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio1" value="option3">3/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio1" value="option4">4/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio1" value="option5">5/5</label>  &nbsp;
-        </div>
-        <br/><br/>
-        Thoughts on the room? <br/>
-        <textarea maxlength = "144" id =description name = 'description' cols = "50" rows = "6" ></textarea>
-        <div id ="textarea_feedback"></div>
-        <br/>
-        <input type="submit" id = 'valid1' class = "btn btn-primary" value="validate"/>
-        <form action = "/feedback/success" method = 'POST'><div style="display: none" id = sub1><input type="submit" value="Submit"/></div></form>
-
-
-    </div>
-    <div style ='display: none;' id = 'BFRev'><br/>
-        Breakfast Type : <br/>
-        <select name="bftype" id="bftype">
-            <option value ="bno"> NONE</option>
-            <option value="Bengali">Bengali</option>
-            <option value="American">American</option>
-            <option value="Chinese">Chinese</option>
-            <option value="Mexican">Mexican</option>
-        </select><br/>&nbsp;
-        <br/>
-         Rating: <br/>
-        <div id = "bb">
-        <label class="radio-inline"><input type="radio" name="optradio2" value="option1">1/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio2" value="option2">2/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio2" value="option3">3/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio2" value="option4">4/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio2" value="option5">5/5</label>  &nbsp;
-        </div>
-        <br/><br/>
-        Thoughts on the food? <br/>
-        <textarea maxlength = "144" id =description2 name = 'description2' cols = "50" rows = "6" ></textarea>
-        <div id ="textarea_feedback2"></div>
-        <br/>
-        <input type="submit" id = 'valid2' class = "btn btn-primary" value="validate"/>
-        <form action = "/feedback/success" method = 'POST'><div style="display: none" id = sub2><input type="submit" value="Submit"/></div></form>
-
-    </div>
-    <div style ='display: none;' id = 'SRev'><br/>
-        Services Offered: <br/>
-        <select name="stype" id="stype">
-            <option value ="sno"> NONE</option>
-            <option value="cleaning">Cleaning</option>
-            <option value="laundry">Laundry</option>
-            <option value="wifi">Wi-Fi</option>
-        </select><br/> &nbsp;
-        <br/>
-        Rating: <br/>
-        <div id = "sb">
-        <label class="radio-inline"><input type="radio" name="optradio3" value="option1">1/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio3" value="option2">2/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio3" value="option3">3/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio3" value="option4">4/5</label>  &nbsp;
-        <label class="radio-inline"><input type="radio" name="optradio3" value="option5">5/5</label>  &nbsp;
-        </div>
-        <br/><br/>
-        Thoughts on the service?<br/>
-        <textarea maxlength = "144" id =description3 name = 'description3' cols = "50" rows = "6" ></textarea>
-        <div id ="textarea_feedback3"></div>
-        <br/>
-        <input type="submit" id = 'valid3' class = "btn btn-primary" value="validate"/>
-        <form action = "/feedback/success" method = 'POST'><div style="display: none" id = sub3><input type="submit" value="Submit"/></div></form>
-
-
-    </div>
+    <form action = "/feedback/success" method = 'POST'>
+    <div style = 'display: none' id = 'rest_hide'><br/>
+        Review Type:
+        <select name="rest" id="rest">
+            <option value ="0"> NONE</option>
+            <option value="1">Room Review</option>
+            <option value="2">Breakfast Review</option>
+            <option value="3">Service Review</option>
+        </select>
+      </div><br/>
 </div>
+
+
 <script>
     $( "#searchRes" ).click(function() {
     $("#resList").css('display', 'inline');
     loadReserv()
   });
-    $( "#valid1" ).click(function() {
-        $("#sub1").show();
-        rating = $('#rb input:radio:checked').val();
-        txtstring = document.getElementById('description').value
-        rtype = $('#rtype').val()
-        bftype = $('#bftype').val()
-        stype = $('#stype').val()
-        senddata()
-  });
-      $( "#valid2" ).click(function() {
-        $("#sub2").show();
-        rtype = $('#rtype').val()
-        bftype = $('#bftype').val()
-        stype = $('#stype').val()
-        rating = $('#bb input:radio:checked').val();
-        txtstring = document.getElementById('description2').value
-        senddata()
-  });
-      $( "#valid3" ).click(function() {
-        $("#sub3").show();
-        rtype = $('#rtype').val()
-        bftype = $('#bftype').val()
-        stype = $('#stype').val()
-        rating = $('#sb input:radio:checked').val();
-        txtstring = document.getElementById('description3').value
-        senddata()
-  });
 
-  function senddata(){
-    RevType= $('#rest').val()
-  $.ajax({
-    url: "/feedback/data",
-    type: "POST",
-    data: JSON.stringify({RevType: RevType, txtstring: txtstring, rating: rating, rtype: rtype, bftype: bftype, stype: stype}),
-    contentType: "application/json; charset=utf-8",
-    success: function(data) { result = JSON.parse(data);
-        console.log(result)
-    },
-    error: function(xhr, textStatus, errorThrown){
-    }
-});
-  }
      function loadReserv(){
     RevType= $('#rest').val()
     $.ajax({
@@ -176,74 +56,11 @@
 }
 
 
-    $(document).ready(function(){
-        $('#rest').on('change',function(){
-            if( this.value == '1')
-            {
-                $("#RoomRev").show();
-                $("#BFRev").hide();
-                $("#SRev").hide();
-            }
-            else if(this.value == '2')
-            {
-                $("#BFRev").show();
-                $("#RoomRev").hide();
-                $("#SRev").hide();
-            }
-            else if(this.value == '3')
-            {
-                $("#SRev").show();
-                $("#RoomRev").hide();
-                $("#BFRev").hide();
-            }
-            else
-            {
-                $("#RoomRev").hide();
-                $("#BFRev").hide();
-                $("#SRev").hide();
-            }
-        });
-    });
 
-    $(document).ready(function() {
-    var text_max = 144;
-    $('#textarea_feedback').html(text_max + ' characters remaining');
-
-    $('#description').keyup(function() {
-        var text_length = $('#description').val().length;
-        var text_remaining = text_max - text_length;
-
-        $('#textarea_feedback').html(text_remaining + ' characters remaining');
-        });
-    });
-
-    $(document).ready(function() {
-    var text_max = 144;
-    $('#textarea_feedback2').html(text_max + ' characters remaining');
-
-    $('#description2').keyup(function() {
-        var text_length = $('#description2').val().length;
-        var text_remaining = text_max - text_length;
-
-        $('#textarea_feedback2').html(text_remaining + ' characters remaining');
-        });
-    });
-
-    $(document).ready(function() {
-    var text_max = 144;
-    $('#textarea_feedback3').html(text_max + ' characters remaining');
-
-    $('#description3').keyup(function() {
-        var text_length = $('#description3').val().length;
-        var text_remaining = text_max - text_length;
-
-        $('#textarea_feedback3').html(text_remaining + ' characters remaining');
-        });
-    });
  function findReview(id){
-  $("#rest_hide").show();
-
+    window.location = "/feedback/pick_res?id=" + id;
   }
+
 
    function setReserv(values){
     $("#table tbody tr").remove();
@@ -266,7 +83,7 @@
      txt.classList.add('btn');
      txt.classList.add('btn-primary')
      txt.innerText = "Review"
-     txt.setAttribute( "onClick", "findReview(" + values[i][0] + ")" );
+     txt.setAttribute( "onClick", "findReview(" + values[i][3] + ")" );
      td.appendChild(txt)
      tr.appendChild(td)
      // append row to table update
