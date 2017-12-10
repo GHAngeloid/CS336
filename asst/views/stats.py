@@ -59,31 +59,71 @@ def result(role):
         # Highest Rated Room Type
         if result == 'Highest Rated Room Type':
             hotels = []
+            cids = []
             try:
                 for r in res.Reservation.select().where(res.Reservation.InDate >= dateB
                                                         and res.Reservation.OutDate <= dateE):
                     if r.HotelID not in hotels:
                         hotels.append(r.HotelID)
+                    if r.CID not in cids:
+                        cids.append(r.CID)
 
                 i = 0
-                Room_no_list = []  # list of all room #s
-                reviewcnt = []  # list that keeps track of sums of each room review
-                k = 0
+                reviewIDs = []
                 while i < len(hotels):
                     for r in roomreview_evaluates.RoomReview_evaluates.select().where(
                             roomreview_evaluates.RoomReview_evaluates.HotelID == hotels[i]):
-                        print("Review ID:", r.ReviewID, "Room_no:", r.Room_no)
-                        if (r.Room_no not in Room_no_list):
-                            Room_no_list.append(r.Room_no)
-                            reviewcnt.append(1)
-                            k += 1
-                        # else:
-
+                        #print("Review ID:", r.ReviewID, "Room_no:", r.Room_no)
+                        if r.ReviewID not in reviewIDs:
+                            reviewIDs.append(r.ReviewID)
                     i += 1
 
-                for r in room.Room.select().where(
-                        room.Room.HotelID == hotels[0] and room.Room.Room_no == Room_no_list[0]):
-                    print("Room Type:", r.Type)
+                i = 0
+                revID = []
+                revR = []
+                while i < len(reviewIDs):
+                    for u in review.review.select().where(review.review.ReviewID == reviewIDs[i]):
+                        revID.append(u.ReviewID)
+                        revR.append(u.Rating)
+                    i += 1
+
+                single = []
+                double = []
+                i = 0
+                #print(revID, revR)
+                while i < len(revID):
+                    for r in roomreview_evaluates.RoomReview_evaluates.select().where(
+                            roomreview_evaluates.RoomReview_evaluates.ReviewID == revID[i]):
+                        #print("Room #:", r.Room_no)
+                        if room.Room.Room_no == r.Room_no:
+                            if room.Room.Type == 'Single':
+                                single.append(revR[i])
+                            if room.Room.Type == 'Double':
+                                double.append(revR[i])
+                    i += 1
+
+                s = 0
+                d = 0
+                if len(single) != 0:
+                    s = sum(single)/len(single)
+                if len(double) != 0:
+                    d = sum(double)/len(double)
+
+                sol = []
+                sol.append(s)
+                sol.append(d)
+
+                sol2 = sorted(sol, reverse=True)
+                #print(sol, sol2)
+
+                output = 'hi'
+                if sol2[0] == s:
+                    output = 'Single'
+                if sol2[0] == d:
+                    output = 'Double'
+
+                return render_template('stats/stat_var.html', logged_in=True, role=role, result=result,
+                                       output=output)
 
                 # print(test)
             except Exception as e:
@@ -130,7 +170,6 @@ def result(role):
 
                 i = 0
                 name = []
-
                 while i < len(newCIDArray):
                     for u in user.User.select().where(user.User.CID == newCIDArray[i]):
                         name.append(u.Name)
@@ -180,7 +219,6 @@ def result(role):
                 revR = []
                 i = 0
                 while i < len(reviewIDs):
-
                     for u in review.review.select().where(review.review.ReviewID == reviewIDs[i]):
                         revID.append(u.ReviewID)
                         revR.append(u.Rating)
@@ -202,9 +240,8 @@ def result(role):
                             cf.append(revR[i])
                         if m.BType == "Mexican":
                             mf.append(revR[i])
-
-
                     i += 1
+
                 a = 0
                 b = 0
                 c = 0
@@ -228,7 +265,7 @@ def result(role):
                 sol.append(m)
 
                 sol2 = sorted(sol, reverse=True)
-                print(sol, sol2)
+                #print(sol, sol2)
 
                 output = 'hi'
 
@@ -246,7 +283,6 @@ def result(role):
 
                 return render_template('stats/stat_var.html', logged_in=True, role=role, result=result,
                                        output=output)
-
 
             # qq
 
@@ -285,7 +321,6 @@ def result(role):
                 revR = []
                 i = 0
                 while i < len(reviewIDs):
-
                     for u in review.review.select().where(review.review.ReviewID == reviewIDs[i]):
                         revID.append(u.ReviewID)
                         revR.append(u.Rating)
@@ -345,11 +380,6 @@ def result(role):
 
                 return render_template('stats/stat_var.html', logged_in=True, role=role, result=result,
                                        output=output)
-
-
-
-
-
 
             except Exception as e:
                 traceback.print_exc(file=sys.stdout)
