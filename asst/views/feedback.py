@@ -15,13 +15,14 @@ import time
 
 page = Blueprint('feedback', __name__, template_folder='templates')
 inv_no = '1'
-rrate = '0'
-bfrate = '0'
-srate = '0'
-ReviewType = '0'
-rtype = 'none'
-bftype = 'none'
-stype = 'none'
+rrate = '-1'
+bfrate = '-1'
+srate = '-1'
+ReviewType = '-1'
+choice = 'no'
+servtype = "sno"
+breakftype = "bno"
+rootype = 'rno'
 class ItemTable(Table):
     '''
     This is a itemTable class that generates text/html automatically to create a table for created reservations
@@ -74,25 +75,26 @@ def get_rating_and_global(role):
     global rtype
     global bftype
     global stype
+    global rate
     hold = []
     try:
         data = request.get_json()
+
         rate = data['radioValue']
-        RevType = data['RevType']
-        if(RevType == '1'):
+        RevType = data['ReviewType']
+        if(RevType == 1):
             rrate = rate
-        elif(RevType == '2'):
+        elif(RevType == 2):
             bfrate = rate
-        elif(RevType == '3'):
+        elif(RevType == 3):
             srate = rate
-        roomtype = data['rtype']
-        breaktype = data['bftype']
-        servtype = data['stype']
+        roomtype = data['rootype']
+        breaktype = data['breakftype']
+        servtype = data['servtype']
         ReviewType = RevType
         rtype = roomtype
         bftype = breaktype
         stype = servtype
-        print(str(servtype))
         hold.append([RevType])
         return json.dumps(hold)
     except Exception as e:
@@ -131,7 +133,6 @@ def get_reserv(role):
 @require_role(['admin','manager', 'customer'],getrole=True) # Example of requireing a role(and authentication)
 def rreview(role):
     SCounter = 0
-    global rate
     global inv_no
     print(str(inv_no))
     global ReviewType
@@ -142,23 +143,29 @@ def rreview(role):
     global bfrate
     global srate
     print(str(ReviewType))
-    if SCounter == 0 :
+    print(str(rrate))
+    print(str(rtype))
+    if SCounter == 0:
         try:
             user = flask_login.current_user
             cid = user.CID
-            for q in res.Reservation.select().where(res.Reservation.CID == cid, res.Reservation.InvoiceNo == inv_no):
-                if ReviewType == '1':
+            if ReviewType == 1:
+                for q in res.Reservation.select().where(res.Reservation.CID == cid, res.Reservation.InvoiceNo == inv_no):
                     try:
                         for rm in room.Room.select().where(room.Room.HotelID == q.HotelID, room.Room.Room_no == q.Room_no):
-                            if rm.Type == rtype:
-                                Text = request.form['description']
-                                review.Review.create_review(rrate, Text, cid, inv_no)
-                                SCounter = ReviewType
+                            try:
+                                if rm.Type == rtype:
+                                    Text = request.form['description']
+                                    review.Review.create_review(rrate, Text, cid, inv_no)
+                                    SCounter = ReviewType
+                            except:
+                                continue
                     except:
                         traceback.print_exc(file=sys.stdout)
                         flash("There was an error processing your request. Please try again", 'danger')
                         return render_template('feedback/index.html', logged_in=True, role=role)
-                elif ReviewType == '2':
+            elif ReviewType == 2:
+                for q in res.Reservation.select().where(res.Reservation.CID == cid, res.Reservation.InvoiceNo == inv_no):
                     try:
                         for food in includes.Inc_Breakfast.select().where(includes.Inc_Breakfast.InvoiceNo == inv_no):
                             try:
@@ -172,7 +179,8 @@ def rreview(role):
                         traceback.print_exc(file=sys.stdout)
                         flash("There was an error processing your request. Please try again", 'danger')
                         return render_template('feedback/index.html', logged_in=True, role=role)
-                elif ReviewType == '3':
+            elif ReviewType == 3:
+                for q in res.Reservation.select().where(res.Reservation.CID == cid, res.Reservation.InvoiceNo == inv_no):
                     try:
                         for ser in includes.Cont_Service.select().where(includes.Cont_Service.InvoiceNo == inv_no):
                             try:
