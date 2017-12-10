@@ -151,13 +151,17 @@ def rreview(role):
             cid = user.CID
             if ReviewType == 1:
                 for q in res.Reservation.select().where(res.Reservation.CID == cid, res.Reservation.InvoiceNo == inv_no):
+                    print(str(q))
                     try:
                         for rm in room.Room.select().where(room.Room.HotelID == q.HotelID, room.Room.Room_no == q.Room_no):
+                            print(str(rm))
+                            print(str(rm.Type))
                             try:
                                 if rm.Type == rtype:
                                     Text = request.form['description']
+                                    print(str(Text))
+                                    SCounter += 1
                                     review.Review.create_review(rrate, Text, cid, inv_no)
-                                    SCounter = ReviewType
                             except:
                                 continue
                     except:
@@ -171,8 +175,8 @@ def rreview(role):
                             try:
                                 if food.BType == bftype:
                                     Text = request.form['description2']
+                                    SCounter += 1
                                     review.Review.create_review(bfrate, Text, cid, inv_no)
-                                    SCounter = ReviewType
                             except:
                                 continue
                     except:
@@ -186,8 +190,8 @@ def rreview(role):
                             try:
                                 if ser.SType == stype:
                                     Text = request.form['description3']
+                                    SCounter += 1
                                     review.Review.create_review(srate, Text, cid, inv_no)
-                                    SCounter = ReviewType
                             except:
                                 continue
                     except:
@@ -198,8 +202,9 @@ def rreview(role):
             traceback.print_exc(file=sys.stdout)
             flash("There was an error processing your request. Please try again", 'danger')
             return render_template('feedback/index.html', logged_in=True,role=role)
-        if SCounter == 0:
-            flash("error, user did not click the validate button", 'danger')
-            return render_template('feedback/index.html', logged_in=True, role=role)
-        else:
+        if SCounter > 0:
             return render_template('feedback/success.html', logged_in=True, role=role)
+        else:
+            flash("error, Please try Again", 'danger')
+            return render_template('feedback/index.html', logged_in=True, role=role)
+
