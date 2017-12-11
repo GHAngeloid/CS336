@@ -194,7 +194,7 @@ def rreview(role):
                                     Text = request.form['description']
                                     print("Room Description: " + str(Text))
                                     SCounter += 1
-                                    review.Review.create_review(rrate, Text, cid, inv_no)
+                                    rvw = review.Review.create_review(rrate, Text, cid, inv_no)
                             except:
                                 continue
                     except:
@@ -213,7 +213,7 @@ def rreview(role):
                                     Text = request.form['description2']
                                     print("Food Description: " + str(Text))
                                     SCounter += 1
-                                    review.Review.create_review(bfrate, Text, cid, inv_no)
+                                    rvw = review.Review.create_review(bfrate, Text, cid, inv_no)
                             except:
                                 continue
                     except:
@@ -232,7 +232,7 @@ def rreview(role):
                                     Text = request.form['description3']
                                     print("Service Description: " + str(Text))
                                     SCounter += 1
-                                    review.Review.create_review(srate, Text, cid, inv_no)
+                                    rvw = review.Review.create_review(srate, Text, cid, inv_no)
                             except:
                                 continue
                     except:
