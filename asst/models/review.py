@@ -6,7 +6,7 @@ from asst.models import BaseModel
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash
 
-class Review(UserMixin, BaseModel):
+class writes_Review(UserMixin, BaseModel):
     class Meta:
         db_table = 'writes_review'
     '''A User model for who will be using the software. Users have different levels of access with different roles
@@ -16,7 +16,7 @@ class Review(UserMixin, BaseModel):
         - customer
         - manager
     '''
-    ReviewID = IntegerField(primary_key=True)
+    ReviewID = PrimaryKeyField()
     Rating = IntegerField()
     TextComment =  CharField()
     CID = IntegerField()
