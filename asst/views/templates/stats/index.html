@@ -1,44 +1,36 @@
 {% extends "index.html" %}
 {% block body %}
 
-    <h2>Welcome</h2>
+    <legend >Search Statistics</legend>
 
     <body>
-    <form action = '/stats/result' method = 'POST'>
+    <form action = '/stats/stat_list' method = 'POST'>
         <div class="row">
         <div class='col-sm-6'>
             <div class="form-group">
                 Begin Date:<div class='input-group date' id='datetimepicker1'>
-                    <input type='text' name="dateB" id="dateB" class="form-control" />
+                    <input type='text' name="dateB" id="dateB" class="form-control" placeholder="2017-12-04"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
             </div>
         </div>
-        <script type="text/javascript">
-            $(function () {
-                $('#datetimepicker1').datetimepicker();
-            });
-        </script>
-    </div>
+        <small id="GHelp" class="form-text text-muted">Enter your Begin date</small>
+        </div>
         <div class="row">
         <div class='col-sm-6'>
             <div class="form-group">
                 End Date:<div class='input-group date' id='datetimepicker2'>
-                    <input type='text' name="dateE" id="dateE" class="form-control" />
+                    <input type='text' name="dateE" id="dateE" class="form-control" placeholder="2017-12-04"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
             </div>
         </div>
-        <script type="text/javascript">
-            $(function () {
-                $('#datetimepicker2').datetimepicker();
-            });
-        </script>
-    </div>
+        <small id="GHelp" class="form-text text-muted">Enter your End date</small>
+        </div>
     <select name="res" id="res">
         <option value="Highest Rated Room Type">Highest Rated Room Type</option>
         <option value="5 Best Customers">5 Best Customers</option>
@@ -48,10 +40,23 @@
     <input type="submit" value="Search"/>
     </form>
 
-    <ol>
-        <li>insert data here</li>
-        <li>data here</li>
-    </ol>
+    <script>
+        $(function () {
+        $('#datetimepicker1').datetimepicker({
+                viewMode: 'days',
+                format: 'YYYY-MM-DD'
+        });
+        $('#datetimepicker2').datetimepicker({
+                viewMode: 'days',
+                format: 'YYYY-MM-DD'
+        });
+    });
+
+    //function resultType(){
+    //    window.location = "/reservation/stat_list;
+    //}
+    </script>
+
     </body>
-    <div>
+
 {% endblock %}

@@ -1,6 +1,101 @@
 {% extends "index.html" %}
 {% block body %}
-    <h2>Welcome</h2>
+    <h2>Feedback</h2>
+    Please leave feedback only on what you have personally experienced. <br/>
+<div>
     <div>
-        This is the feedback page---test
+        Reservations List: <br/>
+        <input type="submit" id = 'searchRes' class = "btn btn-primary" value="Search"/>
+    </div><br/>
+    <div id="resList" style="display: none;">
+  <table class="table table-striped" id = 'table'>
+    <thead>
+      <tr>
+        <th>Hotel ID</th>
+        <th>Room Type</th>
+        <th>Room No</th>
+        <th>Invoice No</th>
+        <th>Review</th>
+      </tr>
+    </thead>
+  </table>
+    </div><br/>
+    <form action = "/feedback/success" method = 'POST'>
+    <div style = 'display: none' id = 'rest_hide'><br/>
+        Review Type:
+        <select name="rest" id="rest">
+            <option value ="0"> NONE</option>
+            <option value="1">Room Review</option>
+            <option value="2">Breakfast Review</option>
+            <option value="3">Service Review</option>
+        </select>
+      </div><br/>
+</div>
+
+
+<script>
+    $( "#searchRes" ).click(function() {
+    $("#resList").css('display', 'inline');
+    loadReserv()
+  });
+
+     function loadReserv(){
+    RevType= $('#rest').val()
+    $.ajax({
+    url: "/feedback/load_Res",
+    type: "POST",
+    data: JSON.stringify({RevType: RevType}),
+    contentType: "application/json; charset=utf-8",
+    success: function(data) { result = JSON.parse(data);
+        console.log(result)
+        setReserv(result)
+    },
+    error: function(xhr, textStatus, errorThrown){
+    }
+});
+}
+
+
+
+ function findReview(id){
+    window.location = "/feedback/pick_res?id=" + id;
+  }
+
+
+   function setReserv(values){
+    $("#table tbody tr").remove();
+  var mixed = document.getElementById("table");
+  var tbody = document.createElement("tbody");
+  // for each outer array row
+  for (var i = 0 ; i < values.length; i++) {
+     var tr = document.createElement("tr");
+
+     // for each inner array cell
+     // create td then text, append
+     for (var j = 0; j < values[i].length; j++) {
+       var td = document.createElement("td");
+       var txt = document.createTextNode(values[i][j]);
+       td.appendChild(txt);
+       tr.appendChild(td);
+     }
+     var td = document.createElement("td")
+     var txt = document.createElement("BUTTON");
+     txt.classList.add('btn');
+     txt.classList.add('btn-primary')
+     txt.innerText = "Review"
+     txt.setAttribute( "onClick", "findReview(" + values[i][3] + ")" );
+     td.appendChild(txt)
+     tr.appendChild(td)
+     // append row to table update
+     // IE7 requires append row to tbody, append tbody to table
+     // append row to table update
+     // IE7 requires append row to tbody, append tbody to table
+     tbody.appendChild(tr);
+     mixed.appendChild(tbody);
+  }
+ }
+
+</script>
+
+
 {% endblock %}
