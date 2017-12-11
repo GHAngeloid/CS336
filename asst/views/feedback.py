@@ -178,6 +178,7 @@ def rreview(role):
     print(str(ReviewType))
     print(str(rrate))
     print(str(rtype))
+    Text = 'hi'
     if SCounter == 0:
         try:
             user = flask_login.current_user
@@ -194,7 +195,7 @@ def rreview(role):
                                     Text = request.form['description']
                                     print("Room Description: " + str(Text))
                                     SCounter += 1
-                                    rvw = review.writes_Review.create_review(rrate, Text, cid, inv_no)
+                                    #rvw = review.writes_Review.create_review(rrate, Text, cid, inv_no)
                             except:
                                 continue
                     except:
@@ -213,7 +214,7 @@ def rreview(role):
                                     Text = request.form['description2']
                                     print("Food Description: " + str(Text))
                                     SCounter += 1
-                                    rvw = review.writes_Review.create_review(bfrate, Text, cid, inv_no)
+                                    #rvw = review.writes_Review.create_review(bfrate, Text, cid, inv_no)
                             except:
                                 continue
                     except:
@@ -232,7 +233,7 @@ def rreview(role):
                                     Text = request.form['description3']
                                     print("Service Description: " + str(Text))
                                     SCounter += 1
-                                    rvw = review.writes_Review.create_review(srate, Text, cid, inv_no)
+                                    #rvw = review.writes_Review.create_review(srate, Text, cid, inv_no)
                             except:
                                 continue
                     except:
@@ -244,6 +245,12 @@ def rreview(role):
             flash("There was an error processing your request. Please try again", 'danger')
             return render_template('feedback/index.html', logged_in=True,role=role)
         if SCounter > 0:
+            if ReviewType == 1:
+                rvw = review.writes_Review.create_review(rrate, Text, cid, inv_no)
+            elif ReviewType == 2:
+                rvw = review.writes_Review.create_review(bfrate, Text, cid, inv_no)
+            elif ReviewType == 3:
+                rvw = review.writes_Review.create_review(srate, Text, cid, inv_no)
             return render_template('feedback/success.html', logged_in=True, role=role)
         else:
             flash("error, please review only for things that were actually ordered.", 'danger')
