@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, abort, flash
 from flask import request
 from asst.auth import require_role
 from itertools import *
-from asst.models import hotel, room, breakfast, service,  res, review, includes
+from asst.models import hotel, room, breakfast, service,  res, review, includes, roomreview_evaluates, breakfastreview_asseses, servicereview_rates
 from flask_table import Table, Col, ButtonCol
 import flask_login
 import datetime
@@ -23,6 +23,9 @@ choice = 'no'
 servtype = "sno"
 breakftype = "bno"
 rootype = 'rno'
+rno = '1'
+hid = '0'
+ReviewIDtest = '0'
 class ItemTable(Table):
     '''
     This is a itemTable class that generates text/html automatically to create a table for created reservations
@@ -65,6 +68,8 @@ def pick_res(role):
     reserv3 = []
     hotel_id = -1
     global inv_no
+    global rno
+    global hid
     try:
         user = flask_login.current_user
         cid = user.CID
@@ -78,6 +83,8 @@ def pick_res(role):
         try:
             reserv.append(dict(inv = r.InvoiceNo, ordered = r.ResDate, out_date = r.OutDate, in_date = r.InDate, room_no = r.Room_no, hotel_id = r.HotelID, \
                                cnumber = r.CNumber, totalamt = r.TotalAmt, cid = r.CID))
+            rno = r.Room_no
+            hid = r.HotelID
         except:
             traceback.print_exc(file=sys.stdout)
             continue
@@ -175,6 +182,9 @@ def rreview(role):
     global rrate
     global bfrate
     global srate
+    global rno
+    global hid
+    global ReviewIDtest
     print(str(ReviewType))
     print(str(rrate))
     print(str(rtype))
@@ -247,10 +257,28 @@ def rreview(role):
         if SCounter > 0:
             if ReviewType == 1:
                 rvw = review.writes_Review.create_review(rrate, Text, cid, inv_no)
+                for test in review.writes_Review.select().where(review.writes_Review.Rating == rrate, review.writes_Review.TextComment == Text, review.writes_Review.InvoiceNo == inv_no):
+                    try:
+                        ReviewIDtest = test.ReviewID
+                    except:
+                        continue
+                rmrvw = roomreview_evaluates.RoomReview_evaluates.create_rmreview(ReviewIDtest, rno, hid)
             elif ReviewType == 2:
                 rvw = review.writes_Review.create_review(bfrate, Text, cid, inv_no)
+                for test in review.writes_Review.select().where(review.writes_Review.Rating == bfrate, review.writes_Review.TextComment == Text, review.writes_Review.InvoiceNo == inv_no):
+                    try:
+                        ReviewIDtest = test.ReviewID
+                    except:
+                        continue
+                bfrvw = breakfastreview_asseses.BreakfastReview_asseses.create_brkreview(ReviewIDtest, bftype, hid)
             elif ReviewType == 3:
                 rvw = review.writes_Review.create_review(srate, Text, cid, inv_no)
+                for test in review.writes_Review.select().where(review.writes_Review.Rating == srate, review.writes_Review.TextComment == Text, review.writes_Review.InvoiceNo == inv_no):
+                    try:
+                        ReviewIDtest = test.ReviewID
+                    except:
+                        continue
+                srvw = servicereview_rates.ServiceReview_rates.create_servreview(ReviewIDtest, stype, hid)
             return render_template('feedback/success.html', logged_in=True, role=role)
         else:
             flash("error, please review only for things that were actually ordered.", 'danger')
